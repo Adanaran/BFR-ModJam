@@ -96,7 +96,7 @@ public class BFR {
 	// Registration Section
 
 	private static void registerStove() {
-		blockStove = new BlockStove(idBlockStove);
+		blockStove = new BlockStove(idBlockStove, false);
 		blockStove.setUnlocalizedName("Stove");
 		blockStove.setCreativeTab(CreativeTabs.tabDecorations);
 		GameRegistry.registerBlock(blockStove, blockStove.getUnlocalizedName());
