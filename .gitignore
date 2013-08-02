@@ -18,5 +18,7 @@ docs/*
 eclipse/*
 jars/*
 logs/*
+libs/*
+modsrc/*
 runtime/*
 temp/*
