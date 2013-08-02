@@ -1,5 +1,6 @@
 package adanaran.mods.bfr;
 
+import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.gui.GUIStove;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -19,7 +20,7 @@ public class ClientProxy extends Proxy {
 		switch (ID) {
 		case 1:
 			System.out.println("Gui called");
-			gui = new GUIStove(player.inventory, (TileEntityFurnace) world.getBlockTileEntity(x, y, z));
+			gui = new GUIStove(player.inventory, (TileEntityStove) world.getBlockTileEntity(x, y, z));
 			break;
 		default:
 			gui = null;

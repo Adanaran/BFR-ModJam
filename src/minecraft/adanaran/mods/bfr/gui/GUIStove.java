@@ -2,6 +2,8 @@ package adanaran.mods.bfr.gui;
 
 import org.lwjgl.opengl.GL11;
 
+import adanaran.mods.bfr.container.ContainerStove;
+import adanaran.mods.bfr.entities.TileEntityStove;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,10 +20,10 @@ import net.minecraft.tileentity.TileEntityFurnace;
 
 public class GUIStove extends GuiContainer {
 	
-	private TileEntityFurnace stoveInventory;
+	private TileEntityStove stoveInventory;
 
-	public GUIStove(InventoryPlayer invPlayer, TileEntityFurnace tileEntityStove){
-        super(new ContainerFurnace(invPlayer, tileEntityStove));
+	public GUIStove(InventoryPlayer invPlayer, TileEntityStove tileEntityStove){
+        super(new ContainerStove(invPlayer, tileEntityStove));
         System.out.println("GUI TALKING");
         this.stoveInventory = tileEntityStove;
 	}

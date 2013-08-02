@@ -1,5 +1,6 @@
 package adanaran.mods.bfr.container;
 
+import adanaran.mods.bfr.entities.TileEntityStove;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
@@ -12,9 +13,9 @@ public class ContainerStove extends Container {
 	private TileEntity tileEntity;
 
 	public ContainerStove(InventoryPlayer inventory,
-			TileEntityFurnace blockTileEntity) {
+			TileEntityStove tileEntityStove) {
 		invPlayer = inventory;
-		tileEntity = blockTileEntity;
+		tileEntity = tileEntityStove;
 	}
 
 	@Override

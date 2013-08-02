@@ -1,6 +1,7 @@
 package adanaran.mods.bfr;
 
 import adanaran.mods.bfr.container.ContainerStove;
+import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.gui.GUIStove;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -18,7 +19,7 @@ public class Proxy implements IGuiHandler {
 			int x, int y, int z) {
 		System.out.println("serverProxy called with id: " + ID);
 		return new ContainerStove(player.inventory,
-				(TileEntityFurnace) world.getBlockTileEntity(x, y, z));
+				(TileEntityStove) world.getBlockTileEntity(x, y, z));
 	}
 
 	@Override
