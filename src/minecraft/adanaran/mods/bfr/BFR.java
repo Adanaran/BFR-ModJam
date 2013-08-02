@@ -2,7 +2,13 @@ package adanaran.mods.bfr;
 
 import java.util.logging.Logger;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.event.terraingen.BiomeEvent.CreateDecorator;
+import adanaran.mods.bfr.blocks.BlockStove;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -11,6 +17,8 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 /**
  * 
@@ -19,46 +27,61 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 @Mod(modid = "bfr", name = "Better Food Recipes", version = "0.1")
 public class BFR {
 
+	// Mod Instace
 	@Instance("bfr")
 	public static BFR instance;
-	
+
+	// Proxy
 	@SidedProxy(clientSide = "adanaran.mods.bfr.ClientProxy", serverSide = "adanaran.mods.bfr.Proxy")
 	public static Proxy proxy;
-	
+
 	// Log
 	public static Logger logger;
-	
+
 	// ID-Section
-	// public static int idWhatever;
-	
+	public static int idBlockStove;
+
 	// Block-Section
-	// public static BlockWhatever blockWhatever; 
-	
+	public static BlockStove blockStove;
+
 	@EventHandler
-	public static void preInit(FMLPreInitializationEvent event){
+	public static void preInit(FMLPreInitializationEvent event) {
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		logger = event.getModLog();
-		Configuration cfg = new Configuration(event.getSuggestedConfigurationFile());
-		try{
+		Configuration cfg = new Configuration(
+				event.getSuggestedConfigurationFile());
+		try {
 			cfg.load();
 			// Enter Block and Item IDs here for config-values
-			// Style:
-			// varName = cfg.getBlock("blockName", idPlanned).getInt(idPlanned);
-			
-		}catch(Exception e){
+			idBlockStove = cfg.getBlock("blockStove", 3010).getInt(3010);
+
+		} catch (Exception e) {
 			e.printStackTrace();
-		}finally{
+		} finally {
 			cfg.save();
 		}
 	}
-	
+
 	@EventHandler
-	public static void Init(FMLInitializationEvent event){
+	public static void Init(FMLInitializationEvent event) {
 		// Items registrieren
+		registerStove();
 	}
-	
+
 	@EventHandler
-	public static void postInit(FMLPostInitializationEvent event){
+	public static void postInit(FMLPostInitializationEvent event) {
 		// Gut aussehen :P
+	}
+
+	// Registration Section
+
+	private static void registerStove() {
+		blockStove = new BlockStove(idBlockStove);
+		blockStove.setUnlocalizedName("Stove");
+		blockStove.setCreativeTab(CreativeTabs.tabDecorations);
+		GameRegistry.registerBlock(blockStove, blockStove.getUnlocalizedName());
+		GameRegistry.addRecipe(new ItemStack(blockStove), new Object[] { "CCC",
+				"C C", "CCC", Character.valueOf('C'), Block.stone });
+		LanguageRegistry.addName(blockStove, "Stove");
 	}
 }
