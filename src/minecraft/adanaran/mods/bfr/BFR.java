@@ -52,7 +52,7 @@ public class BFR {
 
 	// Block-Section
 	public static BlockStove blockStove;
-
+	
 	// Item-Section
 	public static ItemPot itemPot;
 	public static ItemPan itemPan;
@@ -60,20 +60,18 @@ public class BFR {
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
-		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		logger = event.getModLog();
 		Configuration cfg = new Configuration(
 				event.getSuggestedConfigurationFile());
 		try {
 			cfg.load();
-			// Enter Block and Item IDs here for config-values
 			// Block
-			idBlockStove = cfg.getBlock("blockStove", 3010).getInt(3010);
-
-			// Item
-			idItemPot = cfg.getItem("itemPot", 3850).getInt(3850);
-			idItemPan = cfg.getItem("itemPan", 3851).getInt(3851);
-			idItemCakePan = cfg.getItem("itemCakePan", 3851).getInt(3851);
+  			idBlockStove = cfg.getBlock("blockStove", 3010).getInt(3010);
+  
+ 			// Item
+ 			idItemPot = cfg.getItem("itemPot", 3850).getInt(3850);
+ 			idItemPan = cfg.getItem("itemPan", 3851).getInt(3851);
+ 			idItemCakePan = cfg.getItem("itemCakePan", 3851).getInt(3851);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -85,29 +83,28 @@ public class BFR {
 	}
 
 	@EventHandler
-	public static void Init(FMLInitializationEvent event) {
-		// Items und Bloecke registrieren
+	public static void init(FMLInitializationEvent event) {
+		// Items registrieren
+		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		registerStove();
 		registerCookware();
-
-		// Vanilla Rezepte killen
 		removeRecipe(new ItemStack(Item.bread));
 	}
 
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		// Gut aussehen :P
-
+		
 	}
-
-	private static void removeRecipe(ItemStack is) {
+	
+	private static void removeRecipe(ItemStack is){
 		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
-		for (int i = 0; i < l.size(); i++) {
+		for(int i=0;i<l.size();i++){
 			IRecipe r = l.get(i);
-			if (r instanceof ShapedRecipes) {
-				ShapedRecipes sr = (ShapedRecipes) r;
+			if (r instanceof ShapedRecipes){
+				ShapedRecipes sr = (ShapedRecipes)r;
 				ItemStack res = sr.getRecipeOutput();
-				if (ItemStack.areItemStacksEqual(is, res)) {
+				if(ItemStack.areItemStacksEqual(is, res)){
 					l.remove(i--);
 				}
 			}
@@ -149,6 +146,5 @@ public class BFR {
 				.registerItem(itemCakePan, itemCakePan.getUnlocalizedName());
 
 		LanguageRegistry.addName(itemCakePan, "Cakepan");
-
 	}
 }

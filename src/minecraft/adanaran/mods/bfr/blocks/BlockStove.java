@@ -129,6 +129,7 @@ public class BlockStove extends BlockContainer {
 			int par4, EntityPlayer par5EntityPlayer, int par6, float par7,
 			float par8, float par9) {
 		if (!par1World.isRemote) {
+			System.out.println("Call GUI");
 			par5EntityPlayer.openGui(BFR.instance, 1, par1World, par2, par3,
 					par4);
 		}
