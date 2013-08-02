@@ -1,11 +1,18 @@
 package adanaran.mods.bfr.entities;
 
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemHoe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet132TileEntityData;
@@ -188,10 +195,84 @@ public class TileEntityStove extends TileEntity implements ISidedInventory{
 	}
 
 	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		// TODO @Demitreus Was ist wo valid?
-		return false;
+	public boolean isItemValidForSlot(int slot, ItemStack itemstack) {
+		System.out.println("slotcheck: " + slot);
+		boolean valid = false;
+		switch(slot){
+		case 0:
+			valid = true;
+			break;
+		case 1:
+			break;
+		case 2:
+			break;
+		case 3:
+			break;
+		case 4:
+			break;
+		case 5:
+			break;
+		case 6:
+			break;
+			default : break;
+		}
+		return valid;
+		
+	//	return slot == 2 ? false : (slot == 1 ? isItemFuel(itemstack) : true);
 	}
+    /**
+     * Return true if item is a fuel source (getItemBurnTime() > 0).
+     */
+    public static boolean isItemFuel(ItemStack par0ItemStack)
+    {
+        return getItemBurnTime(par0ItemStack) > 0;
+    }
+    /**
+     * Returns the number of ticks that the supplied fuel item will keep the furnace burning, or 0 if the item isn't
+     * fuel
+     */
+    public static int getItemBurnTime(ItemStack par0ItemStack)
+    {
+        if (par0ItemStack == null)
+        {
+            return 0;
+        }
+        else
+        {
+            int i = par0ItemStack.getItem().itemID;
+            Item item = par0ItemStack.getItem();
+
+            if (par0ItemStack.getItem() instanceof ItemBlock && Block.blocksList[i] != null)
+            {
+                Block block = Block.blocksList[i];
+
+                if (block == Block.woodSingleSlab)
+                {
+                    return 150;
+                }
+
+                if (block.blockMaterial == Material.wood)
+                {
+                    return 300;
+                }
+
+                if (block == Block.field_111034_cE)
+                {
+                    return 16000;
+                }
+            }
+
+            if (item instanceof ItemTool && ((ItemTool) item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemSword && ((ItemSword) item).getToolMaterialName().equals("WOOD")) return 200;
+            if (item instanceof ItemHoe && ((ItemHoe) item).getMaterialName().equals("WOOD")) return 200;
+            if (i == Item.stick.itemID) return 100;
+            if (i == Item.coal.itemID) return 1600;
+            if (i == Item.bucketLava.itemID) return 20000;
+            if (i == Block.sapling.blockID) return 100;
+            if (i == Item.blazeRod.itemID) return 2400;
+            return GameRegistry.getFuelValue(par0ItemStack);
+        }
+    }
 
 	@Override
 	public int[] getAccessibleSlotsFromSide(int var1) {
@@ -199,14 +280,14 @@ public class TileEntityStove extends TileEntity implements ISidedInventory{
 	}
 
 	@Override
-	public boolean canInsertItem(int i, ItemStack itemstack, int j) {
-        return this.isItemValidForSlot(i, itemstack);
+	public boolean canInsertItem(int slot, ItemStack itemstack, int j) {
+        return this.isItemValidForSlot(slot, itemstack);
 	}
 
 	@Override
-	public boolean canExtractItem(int i, ItemStack itemstack, int j) {
+	public boolean canExtractItem(int slot, ItemStack itemstack, int j) {
 		// TODO @Demitreus anpassen an unser kochzubehör im 2ten slot
-        return j != 0 || i != 1 || itemstack.itemID == Item.bucketEmpty.itemID;
+        return j != 0 || slot != 1 || itemstack.itemID == Item.bucketEmpty.itemID;
 	}
 	
 

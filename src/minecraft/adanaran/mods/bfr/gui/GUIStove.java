@@ -2,8 +2,8 @@ package adanaran.mods.bfr.gui;
 
 import org.lwjgl.opengl.GL11;
 
-import adanaran.mods.bfr.container.ContainerStove;
 import adanaran.mods.bfr.entities.TileEntityStove;
+import adanaran.mods.bfr.inventory.ContainerStove;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.GuiScreen;

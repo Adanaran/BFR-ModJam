@@ -1,4 +1,4 @@
-package adanaran.mods.bfr.container;
+package adanaran.mods.bfr.inventory;
 
 import adanaran.mods.bfr.entities.TileEntityStove;
 import net.minecraft.entity.player.EntityPlayer;
@@ -29,27 +29,30 @@ public class ContainerStove extends Container {
 		invPlayer = inventory;
 		stove = tileEntityStove;   
 		this.worldObj = world;
-        this.addSlotToContainer(new Slot(tileEntityStove, 0, 8, 17));
+        this.addSlotToContainer(new SlotStove(inventory.player,tileEntityStove, 0, 8, 17));
         this.addSlotToContainer(new Slot(tileEntityStove, 1, 8, 53));
-        this.addSlotToContainer(new SlotFurnace(invPlayer.player, tileEntityStove, 2, 124, 35));
+        this.addSlotToContainer(new SlotStove(inventory.player,tileEntityStove, 2, 124, 35));
         int i;
 
         for (i = 0; i < 3; ++i)
         {
             for (int j = 0; j < 9; ++j)
             {
+            	//Playerinventory
                 this.addSlotToContainer(new Slot(this.invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
             }
             
             for (int i1 = 0; i1 < 3; ++i1)
             {
+            	//3x3 Cooking Field
                 this.addSlotToContainer(new Slot(this.craftMatrix, i1 + i * 3, 34 + i1 * 18, 17 + i * 18));
             }
         }
         
         for (i = 0; i < 9; ++i)
         {
-            this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+        	//Last row of Playerinventory
+            this.addSlotToContainer(new Slot(this.invPlayer, i, 8 + i * 18, 142));
         }
 	}
 
@@ -66,6 +69,7 @@ public class ContainerStove extends Container {
         par1ICrafting.sendProgressBarUpdate(this, 1, this.stove.stoveBurnTime);
         par1ICrafting.sendProgressBarUpdate(this, 2, this.stove.currentItemBurnTime);
     }
+    
     
 	/**
      * Called when the container is closed. Dropping everything inside of cooking-matrix.

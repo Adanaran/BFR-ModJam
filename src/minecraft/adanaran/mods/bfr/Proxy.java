@@ -1,8 +1,8 @@
 package adanaran.mods.bfr;
 
-import adanaran.mods.bfr.container.ContainerStove;
 import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.gui.GUIStove;
+import adanaran.mods.bfr.inventory.ContainerStove;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
