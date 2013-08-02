@@ -49,7 +49,6 @@ public class BFR {
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
-		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		logger = event.getModLog();
 		Configuration cfg = new Configuration(
 				event.getSuggestedConfigurationFile());
@@ -66,10 +65,10 @@ public class BFR {
 	}
 
 	@EventHandler
-	public static void Init(FMLInitializationEvent event) {
+	public static void init(FMLInitializationEvent event) {
 		// Items registrieren
+		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		registerStove();
-		
 		removeRecipe(new ItemStack(Item.bread));
 	}
 
@@ -103,5 +102,6 @@ public class BFR {
 		GameRegistry.addRecipe(new ItemStack(blockStove), new Object[] { "CCC",
 				"C C", "CCC", Character.valueOf('C'), Block.stone });
 		LanguageRegistry.addName(blockStove, "Stove");
+		
 	}
 }

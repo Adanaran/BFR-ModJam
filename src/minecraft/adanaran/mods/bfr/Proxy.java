@@ -1,7 +1,9 @@
 package adanaran.mods.bfr;
 
+import adanaran.mods.bfr.container.ContainerStove;
 import adanaran.mods.bfr.gui.GUIStove;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.network.IGuiHandler;
 
@@ -14,8 +16,9 @@ public class Proxy implements IGuiHandler {
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		// TODO hier was vernünftiges zurückgeben. null resultiert in crash.
-		return new GUIStove();
+		System.out.println("serverProxy called with id: " + ID);
+		return new ContainerStove(player.inventory,
+				(TileEntityFurnace) world.getBlockTileEntity(x, y, z));
 	}
 
 	@Override
