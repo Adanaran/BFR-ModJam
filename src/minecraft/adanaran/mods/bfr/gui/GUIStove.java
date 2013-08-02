@@ -13,6 +13,7 @@ import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.ContainerFurnace;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 /**
  * 
@@ -25,8 +26,8 @@ public class GUIStove extends GuiContainer {
 	private TileEntityStove stoveInventory;
 	public static final ResourceLocation guiTexture = new ResourceLocation("bfr","gui/container/stove.png");
 
-	public GUIStove(InventoryPlayer invPlayer, TileEntityStove tileEntityStove){
-        super(new ContainerStove(invPlayer, tileEntityStove));
+	public GUIStove(InventoryPlayer invPlayer, TileEntityStove tileEntityStove, World world){
+        super(new ContainerStove(invPlayer, tileEntityStove, world));
         System.out.println("GUI TALKING");
         this.stoveInventory = tileEntityStove;
 	}

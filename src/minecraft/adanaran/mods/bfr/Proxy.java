@@ -19,7 +19,7 @@ public class Proxy implements IGuiHandler {
 			int x, int y, int z) {
 		System.out.println("serverProxy called with id: " + ID);
 		return new ContainerStove(player.inventory,
-				(TileEntityStove) world.getBlockTileEntity(x, y, z));
+				(TileEntityStove) world.getBlockTileEntity(x, y, z), world);
 	}
 
 	@Override

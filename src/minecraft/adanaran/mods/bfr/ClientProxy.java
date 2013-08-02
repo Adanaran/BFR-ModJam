@@ -20,7 +20,7 @@ public class ClientProxy extends Proxy {
 		switch (ID) {
 		case 1:
 			System.out.println("Gui called");
-			gui = new GUIStove(player.inventory, (TileEntityStove) world.getBlockTileEntity(x, y, z));
+			gui = new GUIStove(player.inventory, (TileEntityStove) world.getBlockTileEntity(x, y, z), world);
 			break;
 		default:
 			gui = null;

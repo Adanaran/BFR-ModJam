@@ -4,23 +4,31 @@ import adanaran.mods.bfr.entities.TileEntityStove;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
+import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.world.World;
 
 public class ContainerStove extends Container {
 	
 	 /** The cooking matrix inventory (3x3). */
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
 	private InventoryPlayer invPlayer;
-	private TileEntity stove;
+	private TileEntityStove stove;
+	private World worldObj;
+    private int lastCookTime;
+    private int lastBurnTime;
+    private int lastItemBurnTime;
 
 	public ContainerStove(InventoryPlayer inventory,
-			TileEntityStove tileEntityStove) {
+			TileEntityStove tileEntityStove, World world) {
 		invPlayer = inventory;
 		stove = tileEntityStove;   
+		this.worldObj = world;
         this.addSlotToContainer(new Slot(tileEntityStove, 0, 8, 17));
         this.addSlotToContainer(new Slot(tileEntityStove, 1, 8, 53));
         this.addSlotToContainer(new SlotFurnace(invPlayer.player, tileEntityStove, 2, 124, 35));
@@ -50,5 +58,33 @@ public class ContainerStove extends Container {
 		
 		return true;
 	}
+	
+    public void addCraftingToCrafters(ICrafting par1ICrafting)
+    {
+        super.addCraftingToCrafters(par1ICrafting);
+        par1ICrafting.sendProgressBarUpdate(this, 0, this.stove.stoveCookTime);
+        par1ICrafting.sendProgressBarUpdate(this, 1, this.stove.stoveBurnTime);
+        par1ICrafting.sendProgressBarUpdate(this, 2, this.stove.currentItemBurnTime);
+    }
+    
+	/**
+     * Called when the container is closed. Dropping everything inside of cooking-matrix.
+     */
+    public void onContainerClosed(EntityPlayer par1EntityPlayer)
+    {
+        super.onContainerClosed(par1EntityPlayer);
 
+        if (!this.worldObj.isRemote)
+        {
+            for (int i = 0; i < 9; ++i)
+            {
+                ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
+
+                if (itemstack != null)
+                {
+                    par1EntityPlayer.dropPlayerItem(itemstack);
+                }
+            }
+        }
+    }
 }
