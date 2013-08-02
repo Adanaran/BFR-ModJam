@@ -1,13 +1,16 @@
 package adanaran.mods.bfr;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.Configuration;
-import net.minecraftforge.event.terraingen.BiomeEvent.CreateDecorator;
 import adanaran.mods.bfr.blocks.BlockStove;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -66,11 +69,28 @@ public class BFR {
 	public static void Init(FMLInitializationEvent event) {
 		// Items registrieren
 		registerStove();
+		
+		removeRecipe(new ItemStack(Item.bread));
 	}
 
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
 		// Gut aussehen :P
+		
+	}
+	
+	private static void removeRecipe(ItemStack is){
+		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
+		for(int i=0;i<l.size();i++){
+			IRecipe r = l.get(i);
+			if (r instanceof ShapedRecipes){
+				ShapedRecipes sr = (ShapedRecipes)r;
+				ItemStack res = sr.getRecipeOutput();
+				if(ItemStack.areItemStacksEqual(is, res)){
+					l.remove(i--);
+				}
+			}
+		}
 	}
 
 	// Registration Section
