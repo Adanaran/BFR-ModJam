@@ -78,7 +78,9 @@ public class BFR {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			cfg.save();
+			if (cfg.hasChanged()) {
+				cfg.save();
+			}
 		}
 	}
 
@@ -125,26 +127,28 @@ public class BFR {
 	}
 
 	private static void registerCookware() {
+		// TODO Rezepte
 		itemPot = new ItemPot(idItemPot);
 		itemPot.setUnlocalizedName("Pot");
 		itemPot.setCreativeTab(CreativeTabs.tabTools);
 		GameRegistry.registerItem(itemPot, itemPot.getUnlocalizedName());
-		
+
 		LanguageRegistry.addName(itemPot, "Pot");
-		
+
 		itemPan = new ItemPan(idItemPan);
 		itemPan.setUnlocalizedName("Pan");
 		itemPan.setCreativeTab(CreativeTabs.tabTools);
 		GameRegistry.registerItem(itemPan, itemPan.getUnlocalizedName());
-		
+
 		LanguageRegistry.addName(itemPan, "Pan");
-		
+
 		itemCakePan = new ItemCakePan(idItemCakePan);
 		itemCakePan.setUnlocalizedName("Cakepan");
 		itemCakePan.setCreativeTab(CreativeTabs.tabTools);
-		GameRegistry.registerItem(itemCakePan, itemCakePan.getUnlocalizedName());
-		
+		GameRegistry
+				.registerItem(itemCakePan, itemCakePan.getUnlocalizedName());
+
 		LanguageRegistry.addName(itemCakePan, "Cakepan");
-		
+
 	}
 }
