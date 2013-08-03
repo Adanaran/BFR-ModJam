@@ -23,12 +23,26 @@ public class BFRCraftingManager {
 	/** A list of all the recipes added */
 	private ArrayList<BFRRecipe> recipes = new ArrayList<BFRRecipe>();
 
-	/**
-	 * 
-	 */
 	private BFRCraftingManager() {
-		// TODO Rezepte!
-		addRecipe(new ItemStack(Item.bread), BFR.itemCakePan, new Object[] {Item.bucketWater, Item.wheat});
+		addRecipe(new ItemStack(Item.bread), BFR.itemCakePanIron, Item.bucketWater,
+				Item.wheat); // TODO Mehl!
+		addRecipe(new ItemStack(Item.beefCooked), BFR.itemPanIron, Item.beefRaw);
+		addRecipe(new ItemStack(Item.porkCooked), BFR.itemPanIron, Item.porkRaw);
+		addRecipe(new ItemStack(Item.fishCooked), BFR.itemPanIron, Item.fishRaw);
+		addRecipe(new ItemStack(Item.bowlSoup), BFR.itemPotIron, Item.bowlEmpty,
+				Block.mushroomBrown, Block.mushroomRed);
+		addRecipe(new ItemStack(Item.cake), BFR.itemCakePanIron, Item.bucketMilk,
+				Item.bucketMilk, Item.bucketMilk, Item.egg, Item.sugar,
+				Item.sugar, Item.wheat, Item.wheat, Item.wheat); // TODO Mehl!
+		addRecipe(new ItemStack(Item.cookie, 8), BFR.itemCakePanIron,
+				new ItemStack(Item.dyePowder, 1, 3), Item.wheat, Item.wheat);
+		// TODO Mehl!
+		addRecipe(new ItemStack(Item.pumpkinPie), BFR.itemCakePanIron,
+				Block.pumpkin, Item.egg, Item.sugar);
+		// TODO evt. mit Milch/Mehl?
+		addRecipe(new ItemStack(Item.chickenCooked), BFR.itemPanIron,
+				Item.chickenRaw);
+		addRecipe(new ItemStack(Item.bakedPotato), BFR.itemPotIron, Item.potato);
 	}
 
 	public static BFRCraftingManager getInstance() {
