@@ -35,11 +35,11 @@ public class BFRCraftingManager {
 				Item.bucketMilk, Item.bucketMilk, Item.egg, Item.sugar,
 				Item.sugar, Item.wheat, Item.wheat, Item.wheat); // TODO Mehl!
 		addRecipe(new ItemStack(Item.cookie, 8), BFR.itemCakePan,
-				new ItemStack(Item.dyePowder, 1, 3), Item.wheat, Item.wheat); // TODO
-																				// Mehl!
+				new ItemStack(Item.dyePowder, 1, 3), Item.wheat, Item.wheat);
+		// TODO Mehl!
 		addRecipe(new ItemStack(Item.pumpkinPie), BFR.itemCakePan,
-				Block.pumpkin, Item.egg, Item.sugar); // TODO evt. mit
-														// Milch/Mehl?
+				Block.pumpkin, Item.egg, Item.sugar);
+		// TODO evt. mit Milch/Mehl?
 		addRecipe(new ItemStack(Item.chickenCooked), BFR.itemPan,
 				Item.chickenRaw);
 		addRecipe(new ItemStack(Item.bakedPotato), BFR.itemPot, Item.potato);
