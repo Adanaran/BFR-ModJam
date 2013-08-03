@@ -49,9 +49,14 @@ public class GUIStove extends GuiContainer {
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-        int i1 = 10;
+        int i1;
+        if(stoveInventory.isBurning()){
+        	i1 = stoveInventory.getBurnTimeRemainingScaled(12);
+            this.drawTexturedModalRect(k + 9, l + 48 - i1, 176, 12 - i1, 14, i1 + 2);
+        }
         //position of progressbar
-        this.drawTexturedModalRect(k + 89, l + 34 , 176, 14, i1 + 1, 16);
+        i1 = stoveInventory.getCookProgressScaled(24);
+        this.drawTexturedModalRect(k + 89, l + 34, 176, 14, i1 + 1, 16);
 		
 	}
 }

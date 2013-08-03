@@ -12,6 +12,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.Configuration;
 import adanaran.mods.bfr.blocks.BlockStove;
+import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.items.ItemCakePan;
 import adanaran.mods.bfr.items.ItemPan;
 import adanaran.mods.bfr.items.ItemPot;
@@ -48,12 +49,14 @@ public class BFR {
 
 	// ID-Section
 	public static int idBlockStove;
+	public static int idBlockStoveActive;
 	public static int idItemPot;
 	public static int idItemPan;
 	public static int idItemCakePan;
 
 	// Block-Section
 	public static BlockStove blockStove;
+	public static BlockStove blockStoveOn;
 	
 	// Item-Section
 	public static ItemPot itemPot;
@@ -69,6 +72,7 @@ public class BFR {
 			cfg.load();
 			// Block
   			idBlockStove = cfg.getBlock("blockStove", 3010).getInt(3010);
+  			idBlockStoveActive = cfg.getBlock("blockStoveOn", 3011).getInt(3011);
   
  			// Item
  			idItemPot = cfg.getItem("itemPot", 3850).getInt(3850);
@@ -117,12 +121,17 @@ public class BFR {
 
 	private static void registerStove() {
 		blockStove = new BlockStove(idBlockStove, false);
+		blockStoveOn = new BlockStove(idBlockStoveActive, true);
 		blockStove.setUnlocalizedName("Stove");
+		blockStoveOn.setUnlocalizedName("activeStove");
 		blockStove.setCreativeTab(CreativeTabs.tabDecorations);
 		GameRegistry.registerBlock(blockStove, blockStove.getUnlocalizedName());
+		GameRegistry.registerBlock(blockStoveOn, blockStoveOn.getUnlocalizedName());
 		GameRegistry.addRecipe(new ItemStack(blockStove), new Object[] { "CCC",
 				"C C", "CCC", Character.valueOf('C'), Block.stone });
 		LanguageRegistry.addName(blockStove, "Stove");
+		
+		GameRegistry.registerTileEntity(TileEntityStove.class, "TileEntityStove");
 	}
 
 	private static void registerCookware() {
