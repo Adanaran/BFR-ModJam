@@ -37,11 +37,8 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	private static final int[] slots_sides = new int[] { 1 };
 
 	/**
-	 * The ItemStacks that hold the items currently being used in the stove
-	 * 0 - cookware
-	 * 1 - fuel
-	 * 2 - result
-	 * 3-11 - cookingfield
+	 * The ItemStacks that hold the items currently being used in the stove 0 -
+	 * cookware 1 - fuel 2 - result 3-11 - cookingfield
 	 */
 	private ItemStack[] stoveItemStacks = new ItemStack[12];
 	public ContainerStove container;
@@ -59,39 +56,46 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	/** The number of ticks that the current item has been cooking for */
 	public int stoveCookTime;
 
-	private boolean isCookFieldEmpty(){
+	private boolean isCookFieldEmpty() {
 		boolean empty = true;
-		for(int i = 3;i<=11;i++){
-			empty = stoveItemStacks[i] == null;
+		int i = 3;
+		// for(int i = 3;i<=11;i++){
+		while (i <= 11 && empty == true) {
+			empty = stoveItemStacks[i++] == null;
 		}
 		return empty;
 	}
-	
-	public boolean canCook() {
-		if (stoveItemStacks[0] != null && !isCookFieldEmpty())
-        {
 
-			if (container == null) return false;
-            if (container.cookResult == null) return false;
-            if (this.stoveItemStacks[2] == null) return true;
-            if (!this.stoveItemStacks[2].isItemEqual(container.cookResult)) return false;
-            int result = stoveItemStacks[2].stackSize + container.cookResult.stackSize;
-            return (result <= getInventoryStackLimit() && result <= container.cookResult.getMaxStackSize());
-        } else {
-        	return false;
-        }
+	public boolean canCook() {
+		if (stoveItemStacks[0] != null && !isCookFieldEmpty()) {
+			if (container == null)
+				return false;
+			if (container.cookResult == null)
+				return false;
+			if (this.stoveItemStacks[2] == null)
+				return true;
+			if (!this.stoveItemStacks[2].isItemEqual(container.cookResult))
+				return false;
+			int result = stoveItemStacks[2].stackSize
+					+ container.cookResult.stackSize;
+			return (result <= getInventoryStackLimit() && result <= container.cookResult
+					.getMaxStackSize());
+		} else {
+			return false;
+		}
 	}
 
 	public void cookItem() {
 		System.out.println("cooking: " + canCook());
 		if (canCook()) {
 			// damage Cookware
-			//TODO @Adanaran Cookware muss beschädigbarsein :D
-			//stoveItemStacks[1].damageItem(1, player);
+			// TODO @Adanaran Cookware muss beschädigbarsein :D
+			// stoveItemStacks[1].damageItem(1, player);
 			// add cookResult
 			if (stoveItemStacks[2] == null) {
 				stoveItemStacks[2] = container.cookResult.copy();
-			} else if (this.stoveItemStacks[2].isItemEqual(container.cookResult)) {
+			} else if (this.stoveItemStacks[2]
+					.isItemEqual(container.cookResult)) {
 				stoveItemStacks[2].stackSize += container.cookResult.stackSize;
 			}
 			// damage cookware
@@ -102,9 +106,13 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 			}
 			// decrease items in cooking-Matrix
 			for (int i = 3; i <= 11; i++) {
-				--stoveItemStacks[i].stackSize;
+				if (stoveItemStacks[i] != null) {
+					stoveItemStacks[i].stackSize--;
+					if (stoveItemStacks[i].stackSize <= 0) {
+						stoveItemStacks[i] = null;
+					}
+				}
 			}
-			
 		}
 	}
 
@@ -137,89 +145,82 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 		return this.stoveBurnTime > 0;
 	}
 
-    /**
-     * Reads a tile entity from NBT.
-     */
-    public void readFromNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        super.readFromNBT(par1NBTTagCompound);
-        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items");
-        this.stoveItemStacks = new ItemStack[this.getSizeInventory()];
+	/**
+	 * Reads a tile entity from NBT.
+	 */
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
+		super.readFromNBT(par1NBTTagCompound);
+		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items");
+		this.stoveItemStacks = new ItemStack[this.getSizeInventory()];
 
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.tagAt(i);
-            byte b0 = nbttagcompound1.getByte("Slot");
+		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+			NBTTagCompound nbttagcompound1 = (NBTTagCompound) nbttaglist
+					.tagAt(i);
+			byte b0 = nbttagcompound1.getByte("Slot");
 
-            if (b0 >= 0 && b0 < this.stoveItemStacks.length)
-            {
-                this.stoveItemStacks[b0] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-            }
-        }
+			if (b0 >= 0 && b0 < this.stoveItemStacks.length) {
+				this.stoveItemStacks[b0] = ItemStack
+						.loadItemStackFromNBT(nbttagcompound1);
+			}
+		}
 
-        this.stoveBurnTime = par1NBTTagCompound.getShort("BurnTime");
-        this.stoveCookTime = par1NBTTagCompound.getShort("CookTime");
-        this.currentItemBurnTime = getItemBurnTime(this.stoveItemStacks[1]);
+		this.stoveBurnTime = par1NBTTagCompound.getShort("BurnTime");
+		this.stoveCookTime = par1NBTTagCompound.getShort("CookTime");
+		this.currentItemBurnTime = getItemBurnTime(this.stoveItemStacks[1]);
 
-        if (par1NBTTagCompound.hasKey("CustomName"))
-        {
-            this.tEntityName = par1NBTTagCompound.getString("CustomName");
-        }
-    }
-    
-    /**
-     * Returns the name of the inventory.
-     */
-    public String getInvName()
-    {
-        return this.isInvNameLocalized() ? this.tEntityName : "container.stove";
-    }
+		if (par1NBTTagCompound.hasKey("CustomName")) {
+			this.tEntityName = par1NBTTagCompound.getString("CustomName");
+		}
+	}
 
-    /**
-     * If this returns false, the inventory name will be used as an unlocalized name, and translated into the player's
-     * language. Otherwise it will be used directly.
-     */
-    public boolean isInvNameLocalized()
-    {
-        return this.tEntityName != null && this.tEntityName.length() > 0;
-    }
+	/**
+	 * Returns the name of the inventory.
+	 */
+	public String getInvName() {
+		return this.isInvNameLocalized() ? this.tEntityName : "container.stove";
+	}
 
-    /**
-     * Sets the custom display name to use when opening a GUI linked to this tile entity.
-     */
-    public void setGuiDisplayName(String par1Str)
-    {
-        this.tEntityName = par1Str;
-    }
-    
-    /**
-     * Writes a tile entity to NBT.
-     */
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound)
-    {
-        super.writeToNBT(par1NBTTagCompound);
-        par1NBTTagCompound.setShort("BurnTime", (short)this.stoveBurnTime);
-        par1NBTTagCompound.setShort("CookTime", (short)this.stoveCookTime);
-        NBTTagList nbttaglist = new NBTTagList();
+	/**
+	 * If this returns false, the inventory name will be used as an unlocalized
+	 * name, and translated into the player's language. Otherwise it will be
+	 * used directly.
+	 */
+	public boolean isInvNameLocalized() {
+		return this.tEntityName != null && this.tEntityName.length() > 0;
+	}
 
-        for (int i = 0; i < this.stoveItemStacks.length; ++i)
-        {
-            if (this.stoveItemStacks[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte)i);
-                this.stoveItemStacks[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
+	/**
+	 * Sets the custom display name to use when opening a GUI linked to this
+	 * tile entity.
+	 */
+	public void setGuiDisplayName(String par1Str) {
+		this.tEntityName = par1Str;
+	}
 
-        par1NBTTagCompound.setTag("Items", nbttaglist);
+	/**
+	 * Writes a tile entity to NBT.
+	 */
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+		super.writeToNBT(par1NBTTagCompound);
+		par1NBTTagCompound.setShort("BurnTime", (short) this.stoveBurnTime);
+		par1NBTTagCompound.setShort("CookTime", (short) this.stoveCookTime);
+		NBTTagList nbttaglist = new NBTTagList();
 
-        if (this.isInvNameLocalized())
-        {
-            par1NBTTagCompound.setString("CustomName", this.tEntityName);
-        }
-    }
+		for (int i = 0; i < this.stoveItemStacks.length; ++i) {
+			if (this.stoveItemStacks[i] != null) {
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("Slot", (byte) i);
+				this.stoveItemStacks[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
+
+		par1NBTTagCompound.setTag("Items", nbttaglist);
+
+		if (this.isInvNameLocalized()) {
+			par1NBTTagCompound.setString("CustomName", this.tEntityName);
+		}
+	}
 
 	@Override
 	public int getSizeInventory() {
@@ -297,74 +298,66 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	public void closeChest() {
 		// Without function
 	}
-	 /**
-     * Allows the entity to update its state. Overridden in most subclasses, e.g. the mob spawner uses this to count
-     * ticks and creates a new spawn inside its implementation.
-     */
-	
-    public void updateEntity()
-    {
-        boolean burning = this.stoveBurnTime > 0;
-        boolean flag1 = false;
 
-        if (this.stoveBurnTime > 0)
-        {
-            --this.stoveBurnTime;
-        }
+	/**
+	 * Allows the entity to update its state. Overridden in most subclasses,
+	 * e.g. the mob spawner uses this to count ticks and creates a new spawn
+	 * inside its implementation.
+	 */
 
-        if (!this.worldObj.isRemote)
-        {
-            if (this.stoveBurnTime == 0 && this.canCook())
-            {
-                this.currentItemBurnTime = this.stoveBurnTime = getItemBurnTime(this.stoveItemStacks[1]);
+	public void updateEntity() {
+		boolean burning = this.stoveBurnTime > 0;
+		boolean flag1 = false;
 
-                if (this.stoveBurnTime > 0)
-                {
-                    flag1 = true;
+		if (this.stoveBurnTime > 0) {
+			--this.stoveBurnTime;
+		}
 
-                    if (this.stoveItemStacks[1] != null)
-                    {
-                        --this.stoveItemStacks[1].stackSize;
+		if (!this.worldObj.isRemote) {
+			if (this.stoveBurnTime == 0 && this.canCook()) {
+				this.currentItemBurnTime = this.stoveBurnTime = getItemBurnTime(this.stoveItemStacks[1]);
 
-                        if (this.stoveItemStacks[1].stackSize == 0)
-                        {
-                        	//if fuel empty
-                            this.stoveItemStacks[1] = this.stoveItemStacks[1].getItem().getContainerItemStack(stoveItemStacks[1]);
-                        }
-                    }
-                }
-            }
+				if (this.stoveBurnTime > 0) {
+					flag1 = true;
 
-            if (this.isBurning() && this.canCook())
-            {
-                ++this.stoveCookTime;
+					if (this.stoveItemStacks[1] != null) {
+						--this.stoveItemStacks[1].stackSize;
 
-                if (this.stoveCookTime == 200)
-                {
-                	//if cooked long enough
-                    this.stoveCookTime = 0;
-                    this.cookItem();
-                    flag1 = true;
-                }
-            }
-            else
-            {
-                this.stoveCookTime = 0;
-            }
+						if (this.stoveItemStacks[1].stackSize == 0) {
+							// if fuel empty
+							this.stoveItemStacks[1] = this.stoveItemStacks[1]
+									.getItem().getContainerItemStack(
+											stoveItemStacks[1]);
+						}
+					}
+				}
+			}
 
-            if (burning != this.stoveBurnTime > 0)
-            {
-                flag1 = true;
-                BlockStove.updateStoveBlockState(this.stoveBurnTime > 0, this.worldObj, this.xCoord, this.yCoord, this.zCoord);
-            }
-        }
+			if (this.isBurning() && this.canCook()) {
+				++this.stoveCookTime;
 
-        if (flag1)
-        {
-            this.onInventoryChanged();
-        }
-    }
-    
+				if (this.stoveCookTime == 200) {
+					// if cooked long enough
+					this.stoveCookTime = 0;
+					this.cookItem();
+					flag1 = true;
+				}
+			} else {
+				this.stoveCookTime = 0;
+			}
+
+			if (burning != this.stoveBurnTime > 0) {
+				flag1 = true;
+				BlockStove.updateStoveBlockState(this.stoveBurnTime > 0,
+						this.worldObj, this.xCoord, this.yCoord, this.zCoord);
+			}
+		}
+
+		if (flag1) {
+			this.onInventoryChanged();
+		}
+	}
+
 	/**
 	 * Return true if item is a fuel source (getItemBurnTime() > 0).
 	 */
@@ -441,7 +434,7 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-        return i == 2 ? false : (i == 1 ? isItemFuel(itemstack) : true);
+		return i == 2 ? false : (i == 1 ? isItemFuel(itemstack) : true);
 	}
 
 }
