@@ -59,7 +59,6 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	private boolean isCookFieldEmpty() {
 		boolean empty = true;
 		int i = 3;
-		// for(int i = 3;i<=11;i++){
 		while (i <= 11 && empty == true) {
 			empty = stoveItemStacks[i++] == null;
 		}
