@@ -7,9 +7,11 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 import adanaran.mods.bfr.crafting.BFRCraftingManager;
 import adanaran.mods.bfr.entities.TileEntityStove;
+import adanaran.mods.bfr.items.ItemCookwareBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -44,8 +46,8 @@ public class ContainerStove extends Container {
 		for (i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				// Playerinventory; slot 12 - 38
-				this.addSlotToContainer(new Slot(this.invPlayer, j + i * 9 + 9
-						, 8 + j * 18, 84 + i * 18));
+				this.addSlotToContainer(new Slot(this.invPlayer, j + i * 9 + 9,
+						8 + j * 18, 84 + i * 18));
 			}
 		}
 		for (i = 0; i < 9; ++i) {
@@ -119,17 +121,36 @@ public class ContainerStove extends Container {
 	 * guess).
 	 */
 	public ItemStack transferStackInSlot(EntityPlayer player, int clickedSlot) {
-		System.out.println("clickedSlot: " + clickedSlot);
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(clickedSlot);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (clickedSlot == 0) {
-				if (!this.mergeItemStack(itemstack1, 12, 47, false)) {
+			if (clickedSlot <= 11) {
+				if (!this.mergeItemStack(itemstack1, 12, 48, false)) {
 					return null;
 				}
-				slot.onSlotChange(itemstack1, itemstack);
+
+			} else if (clickedSlot >= 39) {
+				if (!this.mergeItemStack(itemstack1, 12, 39, false)) {
+					return null;
+				}
+			} else if (clickedSlot >= 12) {
+				if (!(itemstack1.getItem() instanceof ItemCookwareBase)) {
+					if (TileEntityFurnace.isItemFuel(itemstack1)) {
+						if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+							return null;
+						}
+					} else {
+						if (!this.mergeItemStack(itemstack1, 3, 12, false)) {
+							return null;
+						}
+					}
+				} else if (!((Slot) inventorySlots.get(1)).getHasStack()) {
+					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+						return null;
+					}
+				}
 			}
 
 			if (itemstack1.stackSize == 0) {
@@ -141,7 +162,6 @@ public class ContainerStove extends Container {
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-
 			slot.onPickupFromSlot(player, itemstack1);
 		}
 		return itemstack;
