@@ -85,7 +85,6 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	}
 
 	public void cookItem() {
-		System.out.println("cooking: " + canCook());
 		if (canCook()) {
 			// damage Cookware
 			stoveItemStacks[1].damageItem(1, container.invPlayer.player);

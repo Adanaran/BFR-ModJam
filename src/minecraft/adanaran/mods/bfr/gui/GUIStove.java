@@ -28,7 +28,6 @@ public class GUIStove extends GuiContainer {
 
 	public GUIStove(InventoryPlayer invPlayer, TileEntityStove tileEntityStove, World world){
         super(new ContainerStove(invPlayer, tileEntityStove, world));
-        System.out.println("GUI TALKING");
         this.stoveInventory = tileEntityStove;
 	}
 	

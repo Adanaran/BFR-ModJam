@@ -15,11 +15,9 @@ public class ClientProxy extends Proxy {
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world,
 			int x, int y, int z) {
-		System.out.println("Proxy called with id: " + ID);
 		Object gui;
 		switch (ID) {
 		case 1:
-			System.out.println("Gui called");
 			gui = new GUIStove(player.inventory, (TileEntityStove) world.getBlockTileEntity(x, y, z), world);
 			break;
 		default:
