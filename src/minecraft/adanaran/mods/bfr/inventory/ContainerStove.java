@@ -1,22 +1,17 @@
 package adanaran.mods.bfr.inventory;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import adanaran.mods.bfr.entities.TileEntityStove;
-import adanaran.mods.bfr.items.FoodRecipes;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
-import net.minecraft.inventory.SlotFurnace;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.FurnaceRecipes;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
+import adanaran.mods.bfr.crafting.BFRCraftingManager;
+import adanaran.mods.bfr.entities.TileEntityStove;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class ContainerStove extends Container {
 
@@ -27,7 +22,6 @@ public class ContainerStove extends Container {
 	private int lastBurnTime;
 	private int lastItemBurnTime;
 	private ItemStack cookResult;
-	private FoodRecipes foodRecipes = new FoodRecipes();
 
 	public ContainerStove(InventoryPlayer inventory,
 			TileEntityStove tileEntityStove, World world) {
@@ -132,11 +126,13 @@ public class ContainerStove extends Container {
 				}
 				slot.onSlotChange(itemstack1, itemstack);
 			} else if (par2 != 1 && par2 != 0) {
-				if (FoodRecipes.getCookResult(itemstack1, worldObj) != null) {
-					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-						return null;
-					}
-				} else if (TileEntityStove.isItemFuel(itemstack1)) {
+				// if (FoodRecipes.getCookResult(itemstack1, worldObj) != null)
+				// {
+				// if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+				// return null;
+				// }
+				// } else
+				if (TileEntityStove.isItemFuel(itemstack1)) {
 					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
 						return null;
 					}
@@ -170,15 +166,12 @@ public class ContainerStove extends Container {
 
 	public ItemStack getCookResult(ItemStack[] itemStacks) {
 		InventoryCrafting inventorycrafting = new InventoryCrafting(this, 2, 5);
-		for (int i = 3; i<11;i++) {
-			inventorycrafting.setInventorySlotContents(i-3, itemStacks[i]);
+		for (int i = 3; i < 11; i++) {
+			inventorycrafting.setInventorySlotContents(i - 3, itemStacks[i]);
 		}
 		inventorycrafting.setInventorySlotContents(9, itemStacks[0]);
-		if (foodRecipes.matches(inventorycrafting, worldObj)) {
-			cookResult = foodRecipes.getCraftingResult(inventorycrafting);
-		} else {
-			cookResult = null;
-		}
+		cookResult = BFRCraftingManager.getInstance().findMatchingRecipe(
+				inventorycrafting, worldObj);
 		return cookResult == null ? null : cookResult.copy();
 	}
 }
