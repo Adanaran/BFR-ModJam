@@ -9,7 +9,7 @@ import net.minecraft.item.ItemFood;
  * @author Tim
  *
  */
-public class ItemBetterFoodBase extends ItemFood {
+public abstract class ItemBetterFoodBase extends ItemFood {
 
 	public ItemBetterFoodBase(int par1, int par2, float par3, boolean par4) {
 		super(par1, par2, par3, par4);
