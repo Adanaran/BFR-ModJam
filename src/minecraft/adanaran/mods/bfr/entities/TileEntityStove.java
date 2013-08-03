@@ -69,16 +69,16 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 		if (stoveItemStacks[0] != null && !isCookFieldEmpty()) {
 			if (container == null)
 				return false;
-			if (container.getCookResult() == null)
+			ItemStack result = container.getCookResult(stoveItemStacks); 
+			if (result == null)
 				return false;
 			if (this.stoveItemStacks[2] == null)
 				return true;
-			if (!this.stoveItemStacks[2].isItemEqual(container.getCookResult()))
+			if (!this.stoveItemStacks[2].isItemEqual(result))
 				return false;
-			int result = stoveItemStacks[2].stackSize
-					+ container.getCookResult().stackSize;
-			return (result <= getInventoryStackLimit() && result <= container
-					.getCookResult().getMaxStackSize());
+			int res = stoveItemStacks[2].stackSize
+					+ result.stackSize;
+			return (res <= getInventoryStackLimit() && res <= result.getMaxStackSize());
 		} else {
 			return false;
 		}
@@ -91,11 +91,11 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 			// TODO @Adanaran Cookware muss beschädigbarsein :D
 			// stoveItemStacks[1].damageItem(1, player);
 			// add cookResult
+			ItemStack result = container.getCookResult(stoveItemStacks); 
 			if (stoveItemStacks[2] == null) {
-				stoveItemStacks[2] = container.getCookResult().copy();
-			} else if (this.stoveItemStacks[2].isItemEqual(container
-					.getCookResult())) {
-				stoveItemStacks[2].stackSize += container.getCookResult().stackSize;
+				stoveItemStacks[2] = result.copy();
+			} else if (this.stoveItemStacks[2].isItemEqual(result)) {
+				stoveItemStacks[2].stackSize += result.stackSize;
 			}
 			// damage cookware
 			this.stoveItemStacks[0].damageItem(1, container.invPlayer.player);

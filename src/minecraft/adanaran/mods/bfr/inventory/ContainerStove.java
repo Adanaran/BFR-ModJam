@@ -168,8 +168,12 @@ public class ContainerStove extends Container {
 		return itemstack;
 	}
 
-	public ItemStack getCookResult() {
-		InventoryCrafting inventorycrafting = new InventoryCrafting(this, 3, 3);
+	public ItemStack getCookResult(ItemStack[] itemStacks) {
+		InventoryCrafting inventorycrafting = new InventoryCrafting(this, 2, 5);
+		for (int i = 3; i<11;i++) {
+			inventorycrafting.setInventorySlotContents(i-3, itemStacks[i]);
+		}
+		inventorycrafting.setInventorySlotContents(9, itemStacks[0]);
 		if (foodRecipes.matches(inventorycrafting, worldObj)) {
 			cookResult = foodRecipes.getCraftingResult(inventorycrafting);
 		} else {
