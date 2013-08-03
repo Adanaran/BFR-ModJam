@@ -88,7 +88,7 @@ public class BlockStove extends BlockContainer {
 	        }
 	        if (par6ItemStack.hasDisplayName())
 	        {
-	            ((TileEntityStove)par1World.getBlockTileEntity(par2, par3, par4)).setGuiDisplayName(par6ItemStack.getDisplayName());
+	            ((TileEntityStove)par1World.getBlockTileEntity(par2, par3, par4)).setGuiDisplayName("Stove");
 	        }
 	}
 

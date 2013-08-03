@@ -70,6 +70,7 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	public boolean canCook() {
 		if (stoveItemStacks[0] != null && !isCookFieldEmpty())
         {
+
 			if (container == null) return false;
             if (container.cookResult == null) return false;
             if (this.stoveItemStacks[2] == null) return true;

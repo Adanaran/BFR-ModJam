@@ -18,7 +18,6 @@ import net.minecraft.world.World;
 
 public class ContainerStove extends Container {
 
-	/** The cooking matrix inventory (3x3). */
 	public InventoryPlayer invPlayer;
 	private TileEntityStove stove;
 	private World worldObj;
