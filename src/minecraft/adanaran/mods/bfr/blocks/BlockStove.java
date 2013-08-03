@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.IBlockAccess;
@@ -85,6 +86,10 @@ public class BlockStove extends BlockContainer {
 	        {
 	            par1World.setBlockMetadataWithNotify(par2, par3, par4, 4, 2);
 	        }
+	        if (par6ItemStack.hasDisplayName())
+	        {
+	            ((TileEntityStove)par1World.getBlockTileEntity(par2, par3, par4)).setGuiDisplayName(par6ItemStack.getDisplayName());
+	        }
 	}
 
 	/**
@@ -136,7 +141,31 @@ public class BlockStove extends BlockContainer {
 		return true;
 	}
 
+    /**
+     * Update which block ID the furnace is using depending on whether or not it is burning
+     */
+    public static void updateStoveBlockState(boolean isActive, World par1World, int par2, int par3, int par4)
+    {
+        int meta = par1World.getBlockMetadata(par2, par3, par4);
+        TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+        keepStoveInventory = true;
 
-	
-	
+        if (isActive)
+        {
+            par1World.setBlock(par2, par3, par4, BFR.idBlockStoveActive);
+        }
+        else
+        {
+            par1World.setBlock(par2, par3, par4, BFR.idBlockStove);
+        }
+
+        keepStoveInventory = false;
+        par1World.setBlockMetadataWithNotify(par2, par3, par4, meta, 2);
+
+        if (tileentity != null)
+        {
+            tileentity.validate();
+            par1World.setBlockTileEntity(par2, par3, par4, tileentity);
+        }
+    }
 }

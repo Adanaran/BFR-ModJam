@@ -19,14 +19,13 @@ import net.minecraft.world.World;
 public class ContainerStove extends Container {
 
 	/** The cooking matrix inventory (3x3). */
-	public InventoryCrafting cookMatrix = new InventoryCrafting(this, 3, 3);
-	private InventoryPlayer invPlayer;
+	public InventoryPlayer invPlayer;
 	private TileEntityStove stove;
 	private World worldObj;
 	private int lastCookTime;
 	private int lastBurnTime;
 	private int lastItemBurnTime;
-	private ItemStack cookResult;
+	public ItemStack cookResult;
 	private FoodRecipes foodRecipes = new FoodRecipes();
 
 	public ContainerStove(InventoryPlayer inventory,
@@ -39,33 +38,23 @@ public class ContainerStove extends Container {
 		this.addSlotToContainer(new SlotStove(inventory.player,
 				tileEntityStove, 2, 124, 35));
 		int i;
-
+		int slotIndex = 3;
 		for (i = 0; i < 3; ++i) {
 			for (int j = 0; j < 9; ++j) {
 				// Playerinventory
 				this.addSlotToContainer(new Slot(this.invPlayer, j + i * 9 + 9,
 						8 + j * 18, 84 + i * 18));
 			}
-
 			for (int i1 = 0; i1 < 3; ++i1) {
 				// 3x3 Cooking Field
-				this.addSlotToContainer(new Slot(this.cookMatrix, i1 + i * 3,
+				this.addSlotToContainer(new Slot(tileEntityStove, slotIndex++,
 						34 + i1 * 18, 17 + i * 18));
 			}
 		}
-
 		for (i = 0; i < 9; ++i) {
 			// Last row of Playerinventory
 			this.addSlotToContainer(new Slot(this.invPlayer, i, 8 + i * 18, 142));
 		}
-		this.onCookMatrixChanged(this.cookMatrix);
-	}
-
-	private void onCookMatrixChanged(InventoryCrafting cookMatrix) {
-		stove.player = invPlayer.player;
-		stove.cookResult = foodRecipes.getCookResult(cookMatrix, this
-				.getSlot(0).getStack(), worldObj);
-		stove.cookingMatrix = cookMatrix;
 	}
 
 	@Override
@@ -79,6 +68,36 @@ public class ContainerStove extends Container {
 		par1ICrafting.sendProgressBarUpdate(this, 1, this.stove.stoveBurnTime);
 		par1ICrafting.sendProgressBarUpdate(this, 2,
 				this.stove.currentItemBurnTime);
+	}
+
+	/**
+	 * Looks for changes made in the container, sends them to every listener.
+	 */
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
+
+		for (int i = 0; i < this.crafters.size(); ++i) {
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
+
+			if (this.lastCookTime != this.stove.stoveCookTime) {
+				icrafting.sendProgressBarUpdate(this, 0,
+						this.stove.stoveCookTime);
+			}
+
+			if (this.lastBurnTime != this.stove.stoveBurnTime) {
+				icrafting.sendProgressBarUpdate(this, 1,
+						this.stove.stoveBurnTime);
+			}
+
+			if (this.lastItemBurnTime != this.stove.currentItemBurnTime) {
+				icrafting.sendProgressBarUpdate(this, 2,
+						this.stove.currentItemBurnTime);
+			}
+		}
+		stove.container = this;
+		this.lastCookTime = this.stove.stoveCookTime;
+		this.lastBurnTime = this.stove.stoveBurnTime;
+		this.lastItemBurnTime = this.stove.currentItemBurnTime;
 	}
 
 	@SideOnly(Side.CLIENT)
