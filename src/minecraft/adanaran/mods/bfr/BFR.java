@@ -1,6 +1,7 @@
 package adanaran.mods.bfr;
 
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
@@ -9,6 +10,7 @@ import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
+import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.Configuration;
@@ -126,13 +128,21 @@ public class BFR {
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		registerStove();
 		registerCookware();
-		removeRecipe(new ItemStack(Item.bread));
 	}
 
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
-		// Gut aussehen :P
-
+		removeRecipe(new ItemStack(Item.bread));
+		removeRecipe(new ItemStack(Item.bowlSoup));
+		removeRecipe(new ItemStack(Item.sugar));
+		removeRecipe(new ItemStack(Item.cake));
+		removeRecipe(new ItemStack(Item.cookie));
+		removeRecipe(new ItemStack(Item.pumpkinPie));
+		removeFurnaceRecipes(Item.porkRaw);
+		removeFurnaceRecipes(Item.beefRaw);
+		removeFurnaceRecipes(Item.chickenRaw);
+		removeFurnaceRecipes(Item.fishRaw);
+		removeFurnaceRecipes(Item.potato);
 	}
 
 	private static void removeRecipe(ItemStack is) {
@@ -147,6 +157,10 @@ public class BFR {
 				}
 			}
 		}
+	}
+	
+	private static void removeFurnaceRecipes(Item item) {
+		FurnaceRecipes.smelting().getSmeltingList().remove(item.itemID);
 	}
 
 	// Registration Section
