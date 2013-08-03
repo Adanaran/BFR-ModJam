@@ -11,6 +11,7 @@ import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
 import net.minecraft.inventory.SlotFurnace;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -25,7 +26,8 @@ public class ContainerStove extends Container {
 	private int lastCookTime;
 	private int lastBurnTime;
 	private int lastItemBurnTime;
-	public ItemStack cookResult;
+	// TODO das was hier steht, wird produziert... steht hier null oder nichts, passiert auch nichts
+	public ItemStack cookResult = new ItemStack(Item.diamond);
 	private FoodRecipes foodRecipes = new FoodRecipes();
 
 	public ContainerStove(InventoryPlayer inventory,
