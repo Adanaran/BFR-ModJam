@@ -69,16 +69,16 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 		if (stoveItemStacks[0] != null && !isCookFieldEmpty()) {
 			if (container == null)
 				return false;
-			if (container.cookResult == null)
+			if (container.getCookResult() == null)
 				return false;
 			if (this.stoveItemStacks[2] == null)
 				return true;
-			if (!this.stoveItemStacks[2].isItemEqual(container.cookResult))
+			if (!this.stoveItemStacks[2].isItemEqual(container.getCookResult()))
 				return false;
 			int result = stoveItemStacks[2].stackSize
-					+ container.cookResult.stackSize;
-			return (result <= getInventoryStackLimit() && result <= container.cookResult
-					.getMaxStackSize());
+					+ container.getCookResult().stackSize;
+			return (result <= getInventoryStackLimit() && result <= container
+					.getCookResult().getMaxStackSize());
 		} else {
 			return false;
 		}
@@ -92,10 +92,10 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 			// stoveItemStacks[1].damageItem(1, player);
 			// add cookResult
 			if (stoveItemStacks[2] == null) {
-				stoveItemStacks[2] = container.cookResult.copy();
-			} else if (this.stoveItemStacks[2]
-					.isItemEqual(container.cookResult)) {
-				stoveItemStacks[2].stackSize += container.cookResult.stackSize;
+				stoveItemStacks[2] = container.getCookResult().copy();
+			} else if (this.stoveItemStacks[2].isItemEqual(container
+					.getCookResult())) {
+				stoveItemStacks[2].stackSize += container.getCookResult().stackSize;
 			}
 			// damage cookware
 			this.stoveItemStacks[0].damageItem(1, container.invPlayer.player);
@@ -106,7 +106,13 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 			// decrease items in cooking-Matrix
 			for (int i = 3; i <= 11; i++) {
 				if (stoveItemStacks[i] != null) {
-					stoveItemStacks[i].stackSize--;
+					if (stoveItemStacks[i].getItem().itemID == Item.bucketMilk.itemID
+							|| stoveItemStacks[i].getItem().itemID == Item.bucketWater.itemID) {
+						//don't waste buckets
+						stoveItemStacks[i] = new ItemStack(Item.bucketEmpty);
+					} else {
+						stoveItemStacks[i].stackSize--;
+					}
 					if (stoveItemStacks[i].stackSize <= 0) {
 						stoveItemStacks[i] = null;
 					}
