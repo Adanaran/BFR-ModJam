@@ -28,26 +28,29 @@ public class ContainerStove extends Container {
 		invPlayer = inventory;
 		stove = tileEntityStove;
 		this.worldObj = world;
-		this.addSlotToContainer(new SlotCookware(tileEntityStove, 0, 8, 17));
-		this.addSlotToContainer(new Slot(tileEntityStove, 1, 8, 53));
+		this.addSlotToContainer(new Slot(tileEntityStove, 0, 8, 53));
+		this.addSlotToContainer(new SlotCookware(tileEntityStove, 1, 8, 17));
 		this.addSlotToContainer(new SlotStove(inventory.player,
 				tileEntityStove, 2, 124, 35));
 		int i;
 		int slotIndex = 3;
 		for (i = 0; i < 3; ++i) {
-			for (int j = 0; j < 9; ++j) {
-				// Playerinventory
-				this.addSlotToContainer(new Slot(this.invPlayer, j + i * 9 + 9,
-						8 + j * 18, 84 + i * 18));
-			}
 			for (int i1 = 0; i1 < 3; ++i1) {
-				// 3x3 Cooking Field
+				// 3x3 Cooking Field; slot 3 - 11
 				this.addSlotToContainer(new Slot(tileEntityStove, slotIndex++,
 						34 + i1 * 18, 17 + i * 18));
 			}
 		}
+		for (i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				// Playerinventory; slot 12 - 38
+				this.addSlotToContainer(new Slot(this.invPlayer, j + i * 9 + 9
+						, 8 + j * 18, 84 + i * 18));
+			}
+		}
 		for (i = 0; i < 9; ++i) {
-			// Last row of Playerinventory
+			System.out.println(i);
+			// Last row of Playerinventory; slot 39 - 47
 			this.addSlotToContainer(new Slot(this.invPlayer, i, 8 + i * 18, 142));
 		}
 	}
@@ -112,40 +115,21 @@ public class ContainerStove extends Container {
 
 	/**
 	 * Called when a player shift-clicks on a slot. You must override this or
-	 * you will crash when someone does that.
+	 * you will crash when someone does that. Returns the clicked Item stack (i
+	 * guess).
 	 */
-	public ItemStack transferStackInSlot(EntityPlayer player, int par2) {
+	public ItemStack transferStackInSlot(EntityPlayer player, int clickedSlot) {
+		System.out.println("clickedSlot: " + clickedSlot);
 		ItemStack itemstack = null;
-		Slot slot = (Slot) this.inventorySlots.get(par2);
+		Slot slot = (Slot) this.inventorySlots.get(clickedSlot);
 		if (slot != null && slot.getHasStack()) {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
-			if (par2 == 2) {
-				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
+			if (clickedSlot == 0) {
+				if (!this.mergeItemStack(itemstack1, 12, 47, false)) {
 					return null;
 				}
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if (par2 != 1 && par2 != 0) {
-				// if (FoodRecipes.getCookResult(itemstack1, worldObj) != null)
-				// {
-				// if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
-				// return null;
-				// }
-				// } else
-				if (TileEntityStove.isItemFuel(itemstack1)) {
-					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
-						return null;
-					}
-				} else if (par2 >= 3 && par2 < 30) {
-					if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
-						return null;
-					}
-				} else if (par2 >= 30 && par2 < 39
-						&& !this.mergeItemStack(itemstack1, 3, 30, false)) {
-					return null;
-				}
-			} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
-				return null;
 			}
 
 			if (itemstack1.stackSize == 0) {
@@ -160,7 +144,6 @@ public class ContainerStove extends Container {
 
 			slot.onPickupFromSlot(player, itemstack1);
 		}
-
 		return itemstack;
 	}
 
