@@ -31,8 +31,7 @@ public class FoodRecipes implements IRecipe {
 		return null;
 	}
 
-	public ItemStack getCookResult(InventoryCrafting cookMatrix,
-			ItemStack stack, World worldObj) {
+	public static ItemStack getCookResult(ItemStack stack, World worldObj) {
 		// TODO @Demitreus Rezepte einfügen. Siehe FurnaceRecipes
 		return stack;
 	}
