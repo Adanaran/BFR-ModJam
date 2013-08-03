@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
@@ -51,8 +52,17 @@ public class BFR {
 	public static int idBlockStove;
 	public static int idBlockStoveActive;
 	public static int idItemPot;
+	public static int idItemPotStone;
+	public static int idItemPotGold;
+	public static int idItemPotDiamond;
 	public static int idItemPan;
+	public static int idItemPanStone;
+	public static int idItemPanGold;
+	public static int idItemPanDiamond;
 	public static int idItemCakePan;
+	public static int idItemCakePanStone;
+	public static int idItemCakePanGold;
+	public static int idItemCakePanDiamond;
 
 	// Block-Section
 	public static BlockStove blockStove;
@@ -60,8 +70,17 @@ public class BFR {
 	
 	// Item-Section
 	public static ItemPot itemPot;
+	public static ItemPot itemPotStone;
+	public static ItemPot itemPotGold;
+	public static ItemPot itemPotDiamond;
 	public static ItemPan itemPan;
+	public static ItemPan itemPanStone;
+	public static ItemPan itemPanGold;
+	public static ItemPan itemPanDiamond;
 	public static ItemCakePan itemCakePan;
+	public static ItemCakePan itemCakePanStone;
+	public static ItemCakePan itemCakePanGold;
+	public static ItemCakePan itemCakePanDiamond;
 
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
@@ -75,9 +94,18 @@ public class BFR {
   			idBlockStoveActive = cfg.getBlock("blockStoveOn", 3011).getInt(3011);
   
  			// Item
- 			idItemPot = cfg.getItem("itemPot", 3850).getInt(3850);
- 			idItemPan = cfg.getItem("itemPan", 3851).getInt(3851);
- 			idItemCakePan = cfg.getItem("itemCakePan", 3851).getInt(3851);
+ 			idItemPot 			= cfg.getItem("itemPot", 3850).getInt(3850);
+ 			idItemPotStone 		= cfg.getItem("itemPotStone", 3851).getInt(3851);
+ 			idItemPotGold 		= cfg.getItem("itemPotGold", 3852).getInt(3852);
+ 			idItemPotDiamond 	= cfg.getItem("itemPotDiamond", 3853).getInt(3853);
+ 			idItemPan 			= cfg.getItem("itemPan", 3854).getInt(3854);
+ 			idItemPanStone		= cfg.getItem("itemPanStone", 3855).getInt(3855);
+ 			idItemPanGold 		= cfg.getItem("itemPanGold", 3856).getInt(3856);
+ 			idItemPanDiamond 	= cfg.getItem("itemPanDiamond", 3857).getInt(3857);
+ 			idItemCakePan		= cfg.getItem("itemCakePan", 3858).getInt(3858);
+ 			idItemCakePanStone 	= cfg.getItem("itemCakePanStone", 3859).getInt(3859);
+ 			idItemCakePanGold 	= cfg.getItem("itemCakePanGold", 3860).getInt(3860);
+ 			idItemCakePanDiamond = cfg.getItem("itemCakePanDiamond", 3861).getInt(3861);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -136,26 +164,70 @@ public class BFR {
 
 	private static void registerCookware() {
 		// TODO Rezepte
-		itemPot = new ItemPot(idItemPot);
+		itemPot = new ItemPot(idItemPot, EnumToolMaterial.IRON);
+		itemPotStone = new ItemPot(idItemPotStone, EnumToolMaterial.STONE);
+		itemPotGold = new ItemPot(idItemPotGold, EnumToolMaterial.GOLD);
+		itemPotDiamond = new ItemPot(idItemPotDiamond, EnumToolMaterial.EMERALD);
 		itemPot.setUnlocalizedName("Pot");
+		itemPotStone.setUnlocalizedName("Stonepot");
+		itemPotGold.setUnlocalizedName("Goldpot");
+		itemPotDiamond.setUnlocalizedName("Diamondpot");
 		itemPot.setCreativeTab(CreativeTabs.tabTools);
+		itemPotStone.setCreativeTab(CreativeTabs.tabTools);
+		itemPotGold.setCreativeTab(CreativeTabs.tabTools);
+		itemPotDiamond.setCreativeTab(CreativeTabs.tabTools);
 		GameRegistry.registerItem(itemPot, itemPot.getUnlocalizedName());
+		GameRegistry.registerItem(itemPotStone, itemPotStone.getUnlocalizedName());
+		GameRegistry.registerItem(itemPotGold, itemPotGold.getUnlocalizedName());
+		GameRegistry.registerItem(itemPotDiamond, itemPotDiamond.getUnlocalizedName());
 
 		LanguageRegistry.addName(itemPot, "Pot");
-
-		itemPan = new ItemPan(idItemPan);
+		LanguageRegistry.addName(itemPotStone, "Stonepot");
+		LanguageRegistry.addName(itemPotGold, "Goldpot");
+		LanguageRegistry.addName(itemPotDiamond, "Diamondpot");
+		
+		itemPan = new ItemPan(idItemPan, EnumToolMaterial.IRON);
+		itemPanStone = new ItemPan(idItemPanStone, EnumToolMaterial.STONE);
+		itemPanGold = new ItemPan(idItemPanGold, EnumToolMaterial.GOLD);
+		itemPanDiamond = new ItemPan(idItemPanDiamond, EnumToolMaterial.EMERALD);
 		itemPan.setUnlocalizedName("Pan");
+		itemPanStone.setUnlocalizedName("Stonepan");
+		itemPanGold.setUnlocalizedName("Goldpan");
+		itemPanDiamond.setUnlocalizedName("Diamondpan");
 		itemPan.setCreativeTab(CreativeTabs.tabTools);
+		itemPanStone.setCreativeTab(CreativeTabs.tabTools);
+		itemPanGold.setCreativeTab(CreativeTabs.tabTools);
+		itemPanDiamond.setCreativeTab(CreativeTabs.tabTools);
 		GameRegistry.registerItem(itemPan, itemPan.getUnlocalizedName());
+		GameRegistry.registerItem(itemPanStone, itemPanStone.getUnlocalizedName());
+		GameRegistry.registerItem(itemPanGold, itemPanGold.getUnlocalizedName());
+		GameRegistry.registerItem(itemPanDiamond, itemPanDiamond.getUnlocalizedName());
 
 		LanguageRegistry.addName(itemPan, "Pan");
-
-		itemCakePan = new ItemCakePan(idItemCakePan);
+		LanguageRegistry.addName(itemPanStone, "Stonepan");
+		LanguageRegistry.addName(itemPanGold, "Goldpan");
+		LanguageRegistry.addName(itemPanDiamond, "Diamondpan");
+		
+		itemCakePan = new ItemCakePan(idItemCakePan, EnumToolMaterial.IRON);
+		itemCakePanStone = new ItemCakePan(idItemCakePanStone, EnumToolMaterial.STONE);
+		itemCakePanGold = new ItemCakePan(idItemCakePanGold, EnumToolMaterial.GOLD);
+		itemCakePanDiamond = new ItemCakePan(idItemCakePanDiamond, EnumToolMaterial.EMERALD);
 		itemCakePan.setUnlocalizedName("Cakepan");
+		itemCakePanStone.setUnlocalizedName("Stonecakepan");
+		itemCakePanGold.setUnlocalizedName("Goldcakepan");
+		itemCakePanDiamond.setUnlocalizedName("Diamondcakepan");
 		itemCakePan.setCreativeTab(CreativeTabs.tabTools);
-		GameRegistry
-				.registerItem(itemCakePan, itemCakePan.getUnlocalizedName());
+		itemCakePanStone.setCreativeTab(CreativeTabs.tabTools);
+		itemCakePanGold.setCreativeTab(CreativeTabs.tabTools);
+		itemCakePanDiamond.setCreativeTab(CreativeTabs.tabTools);
+		GameRegistry.registerItem(itemCakePan, itemCakePan.getUnlocalizedName());
+		GameRegistry.registerItem(itemCakePanStone, itemCakePanStone.getUnlocalizedName());
+		GameRegistry.registerItem(itemCakePanGold, itemCakePanGold.getUnlocalizedName());
+		GameRegistry.registerItem(itemCakePanDiamond, itemCakePanDiamond.getUnlocalizedName());
 
 		LanguageRegistry.addName(itemCakePan, "Cakepan");
+		LanguageRegistry.addName(itemCakePanStone, "Stonecakepan");
+		LanguageRegistry.addName(itemCakePanGold, "Goldcakepan");
+		LanguageRegistry.addName(itemCakePanDiamond, "Diamondcakepan");
 	}
 }
