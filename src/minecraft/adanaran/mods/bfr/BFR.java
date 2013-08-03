@@ -1,7 +1,7 @@
 package adanaran.mods.bfr;
 
 import java.util.List;
-import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import net.minecraft.block.Block;
@@ -34,6 +34,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 /**
  * 
  * @author Adanaran
+ * @author Demitreus
  */
 @Mod(modid = "bfr", name = "Better Food Recipes", version = "0.1")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -95,7 +96,6 @@ public class BFR {
 			idBlockStove = cfg.getBlock("blockStove", 3010).getInt(3010);
 			idBlockStoveActive = cfg.getBlock("blockStoveOn", 3011)
 					.getInt(3011);
-
 			// Item
 			idItemPot = cfg.getItem("itemPot", 3850).getInt(3850);
 			idItemPotStone = cfg.getItem("itemPotStone", 3851).getInt(3851);
@@ -112,9 +112,9 @@ public class BFR {
 					3860);
 			idItemCakePanDiamond = cfg.getItem("itemCakePanDiamond", 3861)
 					.getInt(3861);
-
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.log(Level.WARNING,
+					"Could not load config for Better Food Recipes!", e);
 		} finally {
 			if (cfg.hasChanged()) {
 				cfg.save();
@@ -132,6 +132,7 @@ public class BFR {
 
 	@EventHandler
 	public static void postInit(FMLPostInitializationEvent event) {
+		// Vanilla Rezepte entfernen
 		removeRecipe(new ItemStack(Item.bread));
 		removeRecipe(new ItemStack(Item.bowlSoup));
 		removeRecipe(new ItemStack(Item.sugar));
@@ -158,7 +159,7 @@ public class BFR {
 			}
 		}
 	}
-	
+
 	private static void removeFurnaceRecipes(Item item) {
 		FurnaceRecipes.smelting().getSmeltingList().remove(item.itemID);
 	}
@@ -183,7 +184,6 @@ public class BFR {
 	}
 
 	private static void registerCookware() {
-		// TODO Rezepte
 		itemPot = new ItemPot(idItemPot, EnumToolMaterial.IRON);
 		itemPotStone = new ItemPot(idItemPotStone, EnumToolMaterial.STONE);
 		itemPotGold = new ItemPot(idItemPotGold, EnumToolMaterial.GOLD);
@@ -286,7 +286,7 @@ public class BFR {
 
 		GameRegistry
 				.addRecipe(new ItemStack(itemPot),
-						new Object[] {"I I", "IBI", Character.valueOf('I'),
+						new Object[] { "I I", "IBI", Character.valueOf('I'),
 								Item.ingotIron, Character.valueOf('I'),
 								Block.blockIron });
 		GameRegistry.addRecipe(new ItemStack(itemPotStone), new Object[] {
