@@ -206,7 +206,8 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	}
 
 	public boolean isMilling() {
-		return millItemStacks[0].getItem() instanceof ItemMillstone
+		return millItemStacks[0] != null 
+				&& millItemStacks[0].getItem() instanceof ItemMillstone
 				&& millItemStacks[1] != null
 				&& (millItemStacks[2] == null || millItemStacks[2]
 						.isItemEqual(MillRecipes.getInstance()
