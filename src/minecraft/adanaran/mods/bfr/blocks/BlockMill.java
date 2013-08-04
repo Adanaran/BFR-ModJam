@@ -16,5 +16,7 @@ public class BlockMill extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityMill();
 	}
+	
+	// TODO Texturen!
 
 }
