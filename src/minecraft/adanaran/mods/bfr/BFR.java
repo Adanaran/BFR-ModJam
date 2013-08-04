@@ -146,6 +146,7 @@ public class BFR {
 		registerStove();
 		registerCookware();
 		registerMill();
+		registerFood();
 	}
 
 	@EventHandler
@@ -356,7 +357,7 @@ public class BFR {
 
 	private static void registerFood() {
 		itemFlour = new ItemFlour(idItemFlour);
-		itemFlour.setUnlocalizedName("Millstone");
+		itemFlour.setUnlocalizedName("Flour");
 		itemFlour.setCreativeTab(CreativeTabs.tabMaterials);
 		GameRegistry.registerItem(itemFlour, itemFlour.getUnlocalizedName());
 		LanguageRegistry.addName(itemFlour, "Flour");
