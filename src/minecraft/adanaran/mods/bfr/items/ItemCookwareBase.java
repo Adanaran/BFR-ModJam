@@ -21,6 +21,7 @@ public abstract class ItemCookwareBase extends Item {
 		super(id);
 		enumMat = material;
 		this.setMaxDamage(enumMat.getMaxUses());
+		this.setMaxStackSize(16);
 	}
 
 	@Override
