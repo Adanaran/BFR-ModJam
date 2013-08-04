@@ -13,5 +13,5 @@ public class ItemFlour extends Item {
 	public void registerIcons(IconRegister iRegister) {
 		iRegister.registerIcon("bfr:itemFlour");
 	}
-	
+
 }

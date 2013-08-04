@@ -7,7 +7,7 @@ import net.minecraft.item.ItemFood;
  * 
  * 
  * @author Tim
- *
+ * 
  */
 public abstract class ItemBetterFoodBase extends ItemFood {
 

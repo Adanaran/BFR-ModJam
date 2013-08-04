@@ -6,7 +6,7 @@ import net.minecraft.item.EnumToolMaterial;
 /**
  * @author Adanaran
  * @author Demitreus
- *
+ * 
  */
 public class ItemCakePan extends ItemCookwareBase {
 
@@ -16,7 +16,7 @@ public class ItemCakePan extends ItemCookwareBase {
 	public ItemCakePan(int id, EnumToolMaterial material) {
 		super(id, material);
 	}
-	
+
 	@Override
 	public void registerIcons(IconRegister iRegister) {
 		itemIconIron = iRegister.registerIcon("bfr:itemCakePan");

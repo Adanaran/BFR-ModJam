@@ -7,7 +7,6 @@ import net.minecraft.block.Block;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 import adanaran.mods.bfr.BFR;
 import adanaran.mods.bfr.items.ItemCookwareBase;
@@ -24,18 +23,20 @@ public class BFRCraftingManager {
 	private ArrayList<BFRRecipe> recipes = new ArrayList<BFRRecipe>();
 
 	private BFRCraftingManager() {
-		addRecipe(new ItemStack(Item.bread), BFR.itemCakePanIron, Item.bucketWater,
-				BFR.itemFlour); // TODO Mehl!
+		addRecipe(new ItemStack(Item.bread), BFR.itemCakePanIron,
+				Item.bucketWater, BFR.itemFlour); // TODO Mehl!
 		addRecipe(new ItemStack(Item.beefCooked), BFR.itemPanIron, Item.beefRaw);
 		addRecipe(new ItemStack(Item.porkCooked), BFR.itemPanIron, Item.porkRaw);
 		addRecipe(new ItemStack(Item.fishCooked), BFR.itemPanIron, Item.fishRaw);
-		addRecipe(new ItemStack(Item.bowlSoup), BFR.itemPotIron, Item.bowlEmpty,
-				Block.mushroomBrown, Block.mushroomRed);
-		addRecipe(new ItemStack(Item.cake), BFR.itemCakePanIron, Item.bucketMilk,
-				Item.bucketMilk, Item.bucketMilk, Item.egg, Item.sugar,
-				Item.sugar, BFR.itemFlour, BFR.itemFlour, BFR.itemFlour); // TODO Mehl!
+		addRecipe(new ItemStack(Item.bowlSoup), BFR.itemPotIron,
+				Item.bowlEmpty, Block.mushroomBrown, Block.mushroomRed);
+		addRecipe(new ItemStack(Item.cake), BFR.itemCakePanIron,
+				Item.bucketMilk, Item.bucketMilk, Item.bucketMilk, Item.egg,
+				Item.sugar, Item.sugar, BFR.itemFlour, BFR.itemFlour,
+				BFR.itemFlour); // TODO Mehl!
 		addRecipe(new ItemStack(Item.cookie, 8), BFR.itemCakePanIron,
-				new ItemStack(Item.dyePowder, 1, 3), BFR.itemFlour, BFR.itemFlour);
+				new ItemStack(Item.dyePowder, 1, 3), BFR.itemFlour,
+				BFR.itemFlour);
 		// TODO Mehl!
 		addRecipe(new ItemStack(Item.pumpkinPie), BFR.itemCakePanIron,
 				Block.pumpkin, Item.egg, Item.sugar);
@@ -71,7 +72,8 @@ public class BFRCraftingManager {
 	}
 
 	public ItemStack findMatchingRecipe(
-			InventoryCrafting par1InventoryCrafting, World par2World, ItemStack cookware) {
+			InventoryCrafting par1InventoryCrafting, World par2World,
+			ItemStack cookware) {
 		for (int j = 0; j < this.recipes.size(); ++j) {
 			BFRRecipe irecipe = (BFRRecipe) this.recipes.get(j);
 			if (irecipe.matches(par1InventoryCrafting, par2World, cookware)) {

@@ -1,10 +1,7 @@
 package adanaran.mods.bfr.items;
 
-import adanaran.mods.bfr.BFR;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.EnumToolMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 
 /**
  * 
@@ -12,7 +9,7 @@ import net.minecraft.util.Icon;
  * @author Demitreus
  */
 public class ItemPot extends ItemCookwareBase {
-	
+
 	public ItemPot(int id, EnumToolMaterial material) {
 		super(id, material);
 	}

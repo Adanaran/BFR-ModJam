@@ -1,9 +1,9 @@
 package adanaran.mods.bfr.inventory;
 
-import adanaran.mods.bfr.items.ItemCookwareBase;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import adanaran.mods.bfr.items.ItemCookwareBase;
 
 public class SlotCookware extends Slot {
 
@@ -13,13 +13,12 @@ public class SlotCookware extends Slot {
 
 	@Override
 	public boolean isItemValid(ItemStack itemStack) {
-		
-	return itemStack.getItem() instanceof ItemCookwareBase;
+		return itemStack.getItem() instanceof ItemCookwareBase;
 	}
-	
+
 	@Override
 	public int getSlotStackLimit() {
 		return 1;
 	}
-	
+
 }

@@ -2,11 +2,11 @@ package adanaran.mods.bfr.crafting;
 
 import java.util.List;
 
-import adanaran.mods.bfr.items.ItemCookwareBase;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraft.world.World;
+import adanaran.mods.bfr.items.ItemCookwareBase;
 
 /**
  * @author Adanaran
@@ -27,7 +27,6 @@ public class BFRRecipe extends ShapelessRecipes {
 			World par2World) {
 		return super.matches(par1InventoryCrafting, par2World);
 	}
-	
 
 	public boolean matches(InventoryCrafting par1InventoryCrafting,
 			World par2World, ItemStack cookWare) {
@@ -35,6 +34,7 @@ public class BFRRecipe extends ShapelessRecipes {
 				&& cookWare.getItem() instanceof ItemCookwareBase
 				&& cookWare.getItem().getClass() == cookware.getClass();
 	}
+
 	@Override
 	public int getRecipeSize() {
 		return super.getRecipeSize() + 1;

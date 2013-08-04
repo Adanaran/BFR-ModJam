@@ -8,7 +8,7 @@ import net.minecraft.item.EnumToolMaterial;
  * @author Adanaran
  * @author Demitreus
  */
-public class ItemPan extends ItemCookwareBase{
+public class ItemPan extends ItemCookwareBase {
 
 	public ItemPan(int id, EnumToolMaterial material) {
 		super(id, material);

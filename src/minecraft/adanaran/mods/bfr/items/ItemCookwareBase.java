@@ -2,7 +2,6 @@ package adanaran.mods.bfr.items;
 
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 
 /**
@@ -17,23 +16,28 @@ public abstract class ItemCookwareBase extends Item {
 	protected Icon itemIconStone;
 	protected Icon itemIconGold;
 	protected Icon itemIconDiamond;
-	
+
 	public ItemCookwareBase(int id, EnumToolMaterial material) {
 		super(id);
 		enumMat = material;
 		this.setMaxDamage(enumMat.getMaxUses());
 	}
+
 	@Override
 	public Icon getIconFromDamage(int damage) {
 		Icon icon = itemIconIron;
 		switch (enumMat) {
-		case STONE:icon = itemIconStone;
+		case STONE:
+			icon = itemIconStone;
 			break;
-		case IRON:icon = itemIconIron;
+		case IRON:
+			icon = itemIconIron;
 			break;
-		case GOLD:icon = itemIconGold;
+		case GOLD:
+			icon = itemIconGold;
 			break;
-		case EMERALD:icon = itemIconDiamond;
+		case EMERALD:
+			icon = itemIconDiamond;
 			break;
 		case WOOD:
 			break;
@@ -42,5 +46,5 @@ public abstract class ItemCookwareBase extends Item {
 		}
 		return icon;
 	}
-	
+
 }
