@@ -13,5 +13,6 @@ public class ItemMillstone extends Item {
 	@Override
 	public void registerIcons(IconRegister iRegister) {
 		iRegister.registerIcon("bfr:itemMillstone");
+		this.setMaxDamage(100);
 	}
 }

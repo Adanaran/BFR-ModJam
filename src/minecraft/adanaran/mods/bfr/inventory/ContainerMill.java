@@ -24,8 +24,8 @@ public class ContainerMill extends Container {
 	public ContainerMill(InventoryPlayer invPlayer,
 			TileEntityMill tileEntityMill, World world) {
         this.mill = tileEntityMill;
-        this.addSlotToContainer(new Slot(tileEntityMill, 0, 56, 17));
-        this.addSlotToContainer(new Slot(tileEntityMill, 1, 56, 53));
+        this.addSlotToContainer(new Slot(tileEntityMill, 1, 56, 17));
+        this.addSlotToContainer(new Slot(tileEntityMill, 0, 56, 53));
         this.addSlotToContainer(new SlotFurnace(invPlayer.player, tileEntityMill, 2, 116, 35));
         int i;
 

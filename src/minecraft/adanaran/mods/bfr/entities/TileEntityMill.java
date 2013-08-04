@@ -217,11 +217,6 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	public void updateEntity() {
 		boolean flag = false;
 		if (isMilling()) {
-			// damage millstone
-			millItemStacks[0].damageItem(1, null);
-			if (this.millItemStacks[0].stackSize <= 0) {
-				this.millItemStacks[0] = null;
-			}
 			millTurningTime++;
 			if (this.millTurningTime == 100) {
 				// if milled long enough
@@ -243,6 +238,11 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	}
 
 	private void millItem() {
+		// damage millstone
+//		millItemStacks[0].damageItem(1, null);
+		if (this.millItemStacks[0].stackSize <= 0) {
+			this.millItemStacks[0] = null;
+		}
 		// add millResult
 		ItemStack result = MillRecipes.getInstance().getSmeltingResult(
 				millItemStacks[1]);
