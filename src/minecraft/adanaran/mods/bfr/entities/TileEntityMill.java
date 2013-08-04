@@ -23,11 +23,6 @@ public class TileEntityMill extends TileEntity {
 		return false;
 	}
 
-	public int getTimeRemainingScaled(int i) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
 	public int getMillProgressScaled(int i) {
 		// TODO Auto-generated method stub
 		return 0;
