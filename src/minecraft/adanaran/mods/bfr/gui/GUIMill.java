@@ -45,7 +45,7 @@ public class GUIMill extends GuiContainer {
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
         int i1;
-        if(millInventory.isTurning()){
+        if(millInventory.isMilling()){
             this.drawTexturedModalRect(k + 9, l + 48 , 176, 31, 32, 32);
         }
         //position of progressbar
