@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import adanaran.mods.bfr.entities.TileEntityMill;
 import adanaran.mods.bfr.entities.TileEntityStove;
+import adanaran.mods.bfr.inventory.ContainerMill;
 import adanaran.mods.bfr.inventory.ContainerStove;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;

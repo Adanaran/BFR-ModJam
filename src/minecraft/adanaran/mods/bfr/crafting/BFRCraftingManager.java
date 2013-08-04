@@ -24,7 +24,7 @@ public class BFRCraftingManager {
 
 	private BFRCraftingManager() {
 		addRecipe(new ItemStack(Item.bread), BFR.itemCakePanIron,
-				Item.bucketWater, BFR.itemFlour); // TODO Mehl!
+				Item.bucketWater, BFR.itemFlour);
 		addRecipe(new ItemStack(Item.beefCooked), BFR.itemPanIron, Item.beefRaw);
 		addRecipe(new ItemStack(Item.porkCooked), BFR.itemPanIron, Item.porkRaw);
 		addRecipe(new ItemStack(Item.fishCooked), BFR.itemPanIron, Item.fishRaw);
@@ -33,14 +33,12 @@ public class BFRCraftingManager {
 		addRecipe(new ItemStack(Item.cake), BFR.itemCakePanIron,
 				Item.bucketMilk, Item.bucketMilk, Item.bucketMilk, Item.egg,
 				Item.sugar, Item.sugar, BFR.itemFlour, BFR.itemFlour,
-				BFR.itemFlour); // TODO Mehl!
+				BFR.itemFlour);
 		addRecipe(new ItemStack(Item.cookie, 8), BFR.itemCakePanIron,
 				new ItemStack(Item.dyePowder, 1, 3), BFR.itemFlour,
 				BFR.itemFlour);
-		// TODO Mehl!
 		addRecipe(new ItemStack(Item.pumpkinPie), BFR.itemCakePanIron,
 				Block.pumpkin, Item.egg, Item.sugar);
-		// TODO evt. mit Milch/Mehl?
 		addRecipe(new ItemStack(Item.chickenCooked), BFR.itemPanIron,
 				Item.chickenRaw);
 		addRecipe(new ItemStack(Item.bakedPotato), BFR.itemPotIron, Item.potato);

@@ -1,4 +1,4 @@
-package adanaran.mods.bfr.gui;
+package adanaran.mods.bfr.inventory;
 
 import adanaran.mods.bfr.entities.TileEntityMill;
 import net.minecraft.entity.player.EntityPlayer;
