@@ -13,7 +13,7 @@ import net.minecraft.util.Icon;
 public abstract class ItemCookwareBase extends Item {
 
 	protected EnumToolMaterial enumMat;
-	protected Icon itemIcon;
+	protected Icon itemIconIron;
 	protected Icon itemIconStone;
 	protected Icon itemIconGold;
 	protected Icon itemIconDiamond;
@@ -21,15 +21,15 @@ public abstract class ItemCookwareBase extends Item {
 	public ItemCookwareBase(int id, EnumToolMaterial material) {
 		super(id);
 		enumMat = material;
-		this.setMaxDamage(30);
+		this.setMaxDamage(enumMat.getMaxUses());
 	}
 	@Override
 	public Icon getIconFromDamage(int damage) {
-		Icon icon = itemIcon;
+		Icon icon = itemIconIron;
 		switch (enumMat) {
 		case STONE:icon = itemIconStone;
 			break;
-		case IRON:icon = itemIcon;
+		case IRON:icon = itemIconIron;
 			break;
 		case GOLD:icon = itemIconGold;
 			break;

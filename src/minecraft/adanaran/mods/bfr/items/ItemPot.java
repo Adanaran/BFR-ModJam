@@ -19,7 +19,7 @@ public class ItemPot extends ItemCookwareBase {
 
 	@Override
 	public void registerIcons(IconRegister iRegister) {
-		itemIcon = iRegister.registerIcon("bfr:itemPot");
+		itemIconIron = iRegister.registerIcon("bfr:itemPot");
 		itemIconStone = iRegister.registerIcon("bfr:stone_itemPot");
 		itemIconGold = iRegister.registerIcon("bfr:gold_itemPot");
 		itemIconDiamond = iRegister.registerIcon("bfr:diamond_itemPot");

@@ -19,7 +19,7 @@ public class ItemCakePan extends ItemCookwareBase {
 	
 	@Override
 	public void registerIcons(IconRegister iRegister) {
-		itemIcon = iRegister.registerIcon("bfr:itemCakePan");
+		itemIconIron = iRegister.registerIcon("bfr:itemCakePan");
 		itemIconStone = iRegister.registerIcon("bfr:stone_itemCakePan");
 		itemIconGold = iRegister.registerIcon("bfr:gold_itemCakePan");
 		itemIconDiamond = iRegister.registerIcon("bfr:diamond_itemCakePan");

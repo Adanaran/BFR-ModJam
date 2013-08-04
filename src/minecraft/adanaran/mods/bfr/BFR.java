@@ -14,9 +14,12 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.ShapedRecipes;
 import net.minecraftforge.common.Configuration;
+import adanaran.mods.bfr.blocks.BlockMill;
 import adanaran.mods.bfr.blocks.BlockStove;
+import adanaran.mods.bfr.entities.TileEntityMill;
 import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.items.ItemCakePan;
+import adanaran.mods.bfr.items.ItemMillstone;
 import adanaran.mods.bfr.items.ItemPan;
 import adanaran.mods.bfr.items.ItemPot;
 import cpw.mods.fml.common.Mod;
@@ -66,10 +69,15 @@ public class BFR {
 	public static int idItemCakePanStone;
 	public static int idItemCakePanGold;
 	public static int idItemCakePanDiamond;
+	public static int idItemMillstone;
+	public static int idBlockMill;
+	public static int idBlockMillActive;
 
 	// Block-Section
 	public static BlockStove blockStove;
 	public static BlockStove blockStoveOn;
+	public static BlockMill blockMill;
+	public static BlockMill blockMillOn;
 
 	// Item-Section
 	public static ItemPot itemPotIron;
@@ -84,7 +92,9 @@ public class BFR {
 	public static ItemCakePan itemCakePanStone;
 	public static ItemCakePan itemCakePanGold;
 	public static ItemCakePan itemCakePanDiamond;
+	public static ItemMillstone itemMillstone;
 
+	// Init-Section
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
@@ -96,6 +106,9 @@ public class BFR {
 			idBlockStove = cfg.getBlock("blockStove", 3010).getInt(3010);
 			idBlockStoveActive = cfg.getBlock("blockStoveOn", 3011)
 					.getInt(3011);
+			idBlockMill = cfg.getBlock("blockMill", 3012).getInt(3012);
+			idBlockMillActive = cfg.getBlock("blockMillOn", 3013)
+					.getInt(3013);
 			// Item
 			idItemPotIron = cfg.getItem("itemPot", 3850).getInt(3850);
 			idItemPotStone = cfg.getItem("itemPotStone", 3851).getInt(3851);
@@ -112,6 +125,7 @@ public class BFR {
 					3860);
 			idItemCakePanDiamond = cfg.getItem("itemCakePanDiamond", 3861)
 					.getInt(3861);
+			idItemMillstone = cfg.getItem("itemMillstone", 3862).getInt(3862);
 		} catch (Exception e) {
 			logger.log(Level.WARNING,
 					"Could not load config for Better Food Recipes!", e);
@@ -128,6 +142,7 @@ public class BFR {
 		NetworkRegistry.instance().registerGuiHandler(instance, proxy);
 		registerStove();
 		registerCookware();
+		registerMill();
 	}
 
 	@EventHandler
@@ -146,6 +161,7 @@ public class BFR {
 		removeFurnaceRecipes(Item.potato);
 	}
 
+	//Recipe removal functions
 	private static void removeRecipe(ItemStack is) {
 		List<IRecipe> l = CraftingManager.getInstance().getRecipeList();
 		for (int i = 0; i < l.size(); i++) {
@@ -165,7 +181,6 @@ public class BFR {
 	}
 
 	// Registration Section
-
 	private static void registerStove() {
 		blockStove = new BlockStove(idBlockStove, false);
 		blockStoveOn = new BlockStove(idBlockStoveActive, true);
@@ -178,6 +193,7 @@ public class BFR {
 		GameRegistry.addRecipe(new ItemStack(blockStove), new Object[] { "CCC",
 				"C C", "CCC", Character.valueOf('C'), Block.stone });
 		LanguageRegistry.addName(blockStove, "Stove");
+		LanguageRegistry.addName(blockStoveOn, "Stove");
 
 		GameRegistry.registerTileEntity(TileEntityStove.class,
 				"TileEntityStove");
@@ -196,7 +212,8 @@ public class BFR {
 		itemPotStone.setCreativeTab(CreativeTabs.tabTools);
 		itemPotGold.setCreativeTab(CreativeTabs.tabTools);
 		itemPotDiamond.setCreativeTab(CreativeTabs.tabTools);
-		GameRegistry.registerItem(itemPotIron, itemPotIron.getUnlocalizedName());
+		GameRegistry
+				.registerItem(itemPotIron, itemPotIron.getUnlocalizedName());
 		GameRegistry.registerItem(itemPotStone,
 				itemPotStone.getUnlocalizedName());
 		GameRegistry
@@ -204,9 +221,9 @@ public class BFR {
 		GameRegistry.registerItem(itemPotDiamond,
 				itemPotDiamond.getUnlocalizedName());
 
-		GameRegistry.addRecipe(new ItemStack(itemPotIron),
-				new Object[] { "S S", "C C", "CCC", Character.valueOf('S'),
-						Item.stick, Character.valueOf('C'), Item.ingotIron });
+		GameRegistry.addRecipe(new ItemStack(itemPotIron), new Object[] {
+				"S S", "C C", "CCC", Character.valueOf('S'), Item.stick,
+				Character.valueOf('C'), Item.ingotIron });
 		GameRegistry.addRecipe(new ItemStack(itemPotStone), new Object[] {
 				"S S", "C C", "CCC", Character.valueOf('S'), Item.stick,
 				Character.valueOf('C'), Block.stone });
@@ -234,7 +251,8 @@ public class BFR {
 		itemPanStone.setCreativeTab(CreativeTabs.tabTools);
 		itemPanGold.setCreativeTab(CreativeTabs.tabTools);
 		itemPanDiamond.setCreativeTab(CreativeTabs.tabTools);
-		GameRegistry.registerItem(itemPanIron, itemPanIron.getUnlocalizedName());
+		GameRegistry
+				.registerItem(itemPanIron, itemPanIron.getUnlocalizedName());
 		GameRegistry.registerItem(itemPanStone,
 				itemPanStone.getUnlocalizedName());
 		GameRegistry
@@ -260,7 +278,8 @@ public class BFR {
 		LanguageRegistry.addName(itemPanGold, "Goldpan");
 		LanguageRegistry.addName(itemPanDiamond, "Diamondpan");
 
-		itemCakePanIron = new ItemCakePan(idItemCakePanIron, EnumToolMaterial.IRON);
+		itemCakePanIron = new ItemCakePan(idItemCakePanIron,
+				EnumToolMaterial.IRON);
 		itemCakePanStone = new ItemCakePan(idItemCakePanStone,
 				EnumToolMaterial.STONE);
 		itemCakePanGold = new ItemCakePan(idItemCakePanGold,
@@ -275,8 +294,8 @@ public class BFR {
 		itemCakePanStone.setCreativeTab(CreativeTabs.tabTools);
 		itemCakePanGold.setCreativeTab(CreativeTabs.tabTools);
 		itemCakePanDiamond.setCreativeTab(CreativeTabs.tabTools);
-		GameRegistry
-				.registerItem(itemCakePanIron, itemCakePanIron.getUnlocalizedName());
+		GameRegistry.registerItem(itemCakePanIron,
+				itemCakePanIron.getUnlocalizedName());
 		GameRegistry.registerItem(itemCakePanStone,
 				itemCakePanStone.getUnlocalizedName());
 		GameRegistry.registerItem(itemCakePanGold,
@@ -285,10 +304,9 @@ public class BFR {
 				itemCakePanDiamond.getUnlocalizedName());
 
 		GameRegistry
-				.addRecipe(new ItemStack(itemPotIron),
-						new Object[] { "I I", "IBI", Character.valueOf('I'),
-								Item.ingotIron, Character.valueOf('I'),
-								Block.blockIron });
+				.addRecipe(new ItemStack(itemPotIron), new Object[] { "I I",
+						"IBI", Character.valueOf('I'), Item.ingotIron,
+						Character.valueOf('I'), Block.blockIron });
 		GameRegistry.addRecipe(new ItemStack(itemPotStone), new Object[] {
 				"C C", "CCC", Character.valueOf('C'), Block.stone });
 		GameRegistry.addRecipe(new ItemStack(itemPotGold), new Object[] {
@@ -300,5 +318,37 @@ public class BFR {
 		LanguageRegistry.addName(itemCakePanStone, "Stonecakepan");
 		LanguageRegistry.addName(itemCakePanGold, "Goldcakepan");
 		LanguageRegistry.addName(itemCakePanDiamond, "Diamondcakepan");
+	}
+
+	
+	private static void registerMill() {
+		// Millstone
+		itemMillstone = new ItemMillstone(idItemMillstone);
+		itemMillstone.setUnlocalizedName("Millstone");
+		itemMillstone.setCreativeTab(CreativeTabs.tabTools);
+		GameRegistry.registerItem(itemMillstone,
+				itemMillstone.getUnlocalizedName());
+		GameRegistry.addRecipe(new ItemStack(itemMillstone), " C ", "CSC",
+				" C ", Character.valueOf('S'), Item.stick,
+				Character.valueOf('C'), Block.cobblestone);
+		LanguageRegistry.addName(itemMillstone, "Millstone");
+		
+		// Mill
+		blockMill = new BlockMill(idBlockMill);
+		blockMillOn = new BlockMill(idBlockMillActive);
+		blockMill.setUnlocalizedName("Mill");
+		blockMillOn.setUnlocalizedName("activeMill");
+		blockMill.setCreativeTab(CreativeTabs.tabDecorations);
+		GameRegistry.registerBlock(blockMill, blockMill.getUnlocalizedName());
+		GameRegistry.registerBlock(blockMillOn,
+				blockMillOn.getUnlocalizedName());
+		GameRegistry.addRecipe(new ItemStack(blockMill), new Object[] { "C C",
+				"CCC", "SSS", Character.valueOf('S'), Block.stone, Character.valueOf('C'), Block.cobblestone });
+		LanguageRegistry.addName(blockMill, "Mill");
+		LanguageRegistry.addName(blockMillOn, "Mill");
+		
+
+		GameRegistry.registerTileEntity(TileEntityMill.class,
+				"TileEntityMill");
 	}
 }
