@@ -2,8 +2,10 @@ package adanaran.mods.bfr;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
+import adanaran.mods.bfr.entities.TileEntityMill;
 import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.inventory.ContainerStove;
+import adanaran.mods.bfr.inventory.ContainerMill;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 /**
@@ -20,6 +22,10 @@ public class Proxy implements IGuiHandler {
 		case 1:
 			ret = new ContainerStove(player.inventory,
 					(TileEntityStove) world.getBlockTileEntity(x, y, z), world);
+			break;
+		case 2:
+			ret = new ContainerMill(player.inventory,
+					(TileEntityMill) world.getBlockTileEntity(x, y, z), world);
 			break;
 		default:
 			ret = null;
