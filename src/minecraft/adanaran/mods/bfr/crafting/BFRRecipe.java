@@ -25,12 +25,16 @@ public class BFRRecipe extends ShapelessRecipes {
 	@Override
 	public boolean matches(InventoryCrafting par1InventoryCrafting,
 			World par2World) {
-		return super.matches(par1InventoryCrafting, par2World)
-				&& par1InventoryCrafting.getStackInSlot(9).getItem() instanceof ItemCookwareBase
-				&& par1InventoryCrafting.getStackInSlot(9).getItem().getClass() == cookware
-						.getClass();
+		return super.matches(par1InventoryCrafting, par2World);
 	}
+	
 
+	public boolean matches(InventoryCrafting par1InventoryCrafting,
+			World par2World, ItemStack cookWare) {
+		return matches(par1InventoryCrafting, par2World)
+				&& cookWare.getItem() instanceof ItemCookwareBase
+				&& cookWare.getItem().getClass() == cookware.getClass();
+	}
 	@Override
 	public int getRecipeSize() {
 		return super.getRecipeSize() + 1;

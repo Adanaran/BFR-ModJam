@@ -30,8 +30,8 @@ public class ContainerStove extends Container {
 		invPlayer = inventory;
 		stove = tileEntityStove;
 		this.worldObj = world;
-		this.addSlotToContainer(new Slot(tileEntityStove, 0, 8, 53));
-		this.addSlotToContainer(new SlotCookware(tileEntityStove, 1, 8, 17));
+		this.addSlotToContainer(new Slot(tileEntityStove, 1, 8, 53));
+		this.addSlotToContainer(new SlotCookware(tileEntityStove, 0, 8, 17));
 		this.addSlotToContainer(new SlotStove(inventory.player,
 				tileEntityStove, 2, 124, 35));
 		int i;
@@ -51,7 +51,6 @@ public class ContainerStove extends Container {
 			}
 		}
 		for (i = 0; i < 9; ++i) {
-			System.out.println(i);
 			// Last row of Playerinventory; slot 39 - 47
 			this.addSlotToContainer(new Slot(this.invPlayer, i, 8 + i * 18, 142));
 		}
@@ -105,11 +104,9 @@ public class ContainerStove extends Container {
 		if (par1 == 0) {
 			this.stove.stoveCookTime = par2;
 		}
-
 		if (par1 == 1) {
 			this.stove.stoveBurnTime = par2;
 		}
-
 		if (par1 == 2) {
 			this.stove.currentItemBurnTime = par2;
 		}
@@ -130,7 +127,6 @@ public class ContainerStove extends Container {
 				if (!this.mergeItemStack(itemstack1, 12, 48, false)) {
 					return null;
 				}
-
 			} else if (clickedSlot >= 39) {
 				if (!this.mergeItemStack(itemstack1, 12, 39, false)) {
 					return null;
@@ -152,13 +148,11 @@ public class ContainerStove extends Container {
 					}
 				}
 			}
-
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
@@ -168,13 +162,12 @@ public class ContainerStove extends Container {
 	}
 
 	public ItemStack getCookResult(ItemStack[] itemStacks) {
-		InventoryCrafting inventorycrafting = new InventoryCrafting(this, 2, 5);
-		for (int i = 3; i < 11; i++) {
+		InventoryCrafting inventorycrafting = new InventoryCrafting(this, 3, 3);
+		for (int i = 3; i <= 11; i++) {
 			inventorycrafting.setInventorySlotContents(i - 3, itemStacks[i]);
 		}
-		inventorycrafting.setInventorySlotContents(9, itemStacks[0]);
 		cookResult = BFRCraftingManager.getInstance().findMatchingRecipe(
-				inventorycrafting, worldObj);
+				inventorycrafting, worldObj, itemStacks[0]);
 		return cookResult == null ? null : cookResult.copy();
 	}
 }

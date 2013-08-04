@@ -37,8 +37,11 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 	private static final int[] slots_sides = new int[] { 1 };
 
 	/**
-	 * The ItemStacks that hold the items currently being used in the stove 0 -
-	 * cookware 1 - fuel 2 - result 3-11 - cookingfield
+	 * The ItemStacks that hold the items currently being used in the stove <br>
+	 * 0 - cookware <br>
+	 * 1 - fuel <br>
+	 * 2 - result <br>
+	 * 3-11 - cookingfield
 	 */
 	private ItemStack[] stoveItemStacks = new ItemStack[12];
 	public ContainerStove container;
@@ -86,8 +89,6 @@ public class TileEntityStove extends TileEntity implements ISidedInventory {
 
 	public void cookItem() {
 		if (canCook()) {
-			// damage Cookware
-			stoveItemStacks[1].damageItem(1, container.invPlayer.player);
 			// add cookResult
 			ItemStack result = container.getCookResult(stoveItemStacks);
 			if (stoveItemStacks[2] == null) {

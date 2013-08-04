@@ -71,10 +71,10 @@ public class BFRCraftingManager {
 	}
 
 	public ItemStack findMatchingRecipe(
-			InventoryCrafting par1InventoryCrafting, World par2World) {
+			InventoryCrafting par1InventoryCrafting, World par2World, ItemStack cookware) {
 		for (int j = 0; j < this.recipes.size(); ++j) {
-			IRecipe irecipe = (IRecipe) this.recipes.get(j);
-			if (irecipe.matches(par1InventoryCrafting, par2World)) {
+			BFRRecipe irecipe = (BFRRecipe) this.recipes.get(j);
+			if (irecipe.matches(par1InventoryCrafting, par2World, cookware)) {
 				return irecipe.getCraftingResult(par1InventoryCrafting);
 			}
 		}
