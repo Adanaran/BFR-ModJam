@@ -44,25 +44,24 @@ public class BlockStove extends BlockContainer {
 		super(id, Material.rock);
 		isActive = active;
 	}
-	
+
 	@Override
 	public int idDropped(int par1, Random par2Random, int par3) {
 		return BFR.idBlockStove;
 	}
-	
+
 	@Override
 	public int idPicked(World par1World, int par2, int par3, int par4) {
 		return BFR.idBlockStove;
 	}
-	
-    /**
-     * Called whenever the block is added into the world. Args: world, x, y, z
-     */
-    public void onBlockAdded(World par1World, int par2, int par3, int par4)
-    {
-        super.onBlockAdded(par1World, par2, par3, par4);
-        this.setDefaultDirection(par1World, par2, par3, par4);
-    }
+
+	/**
+	 * Called whenever the block is added into the world. Args: world, x, y, z
+	 */
+	public void onBlockAdded(World par1World, int par2, int par3, int par4) {
+		super.onBlockAdded(par1World, par2, par3, par4);
+		this.setDefaultDirection(par1World, par2, par3, par4);
+	}
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
@@ -85,7 +84,6 @@ public class BlockStove extends BlockContainer {
 		return par1 == 1 ? this.stoveIconTop : (par1 == 0 ? this.stoveIconTop
 				: (par1 != par2 ? this.blockIcon : this.stoveIconFront));
 	}
-
 
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
@@ -223,33 +221,34 @@ public class BlockStove extends BlockContainer {
 
 	@Override
 	public void breakBlock(World world, int x, int y, int z, int par5, int par6) {
-		Random rand = new Random();
-		TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
-		if (!(tileEntity instanceof IInventory)) {
-			return;
-		}
-		IInventory inventory = (IInventory) tileEntity;
-		for (int i = 0; i < inventory.getSizeInventory(); i++) {
-			ItemStack item = inventory.getStackInSlot(i);
-			if (item != null && item.stackSize > 0) {
-				float rx = rand.nextFloat() * 0.8F + 0.1F;
-				float ry = rand.nextFloat() * 0.8F + 0.1F;
-				float rz = rand.nextFloat() * 0.8F + 0.1F;
-				EntityItem entityItem = new EntityItem(world, x + rx, y + ry, z
-						+ rz, new ItemStack(item.itemID, item.stackSize,
-						item.getItemDamage()));
-				if (item.hasTagCompound()) {
-					entityItem.getEntityItem().setTagCompound(
-							(NBTTagCompound) item.getTagCompound().copy());
+		if (!keepStoveInventory) {
+			Random rand = new Random();
+			TileEntity tileEntity = world.getBlockTileEntity(x, y, z);
+			if (!(tileEntity instanceof IInventory)) {
+				return;
+			}
+			IInventory inventory = (IInventory) tileEntity;
+			for (int i = 0; i < inventory.getSizeInventory(); i++) {
+				ItemStack item = inventory.getStackInSlot(i);
+				if (item != null && item.stackSize > 0) {
+					float rx = rand.nextFloat() * 0.8F + 0.1F;
+					float ry = rand.nextFloat() * 0.8F + 0.1F;
+					float rz = rand.nextFloat() * 0.8F + 0.1F;
+					EntityItem entityItem = new EntityItem(world, x + rx, y
+							+ ry, z + rz, new ItemStack(item.itemID,
+							item.stackSize, item.getItemDamage()));
+					if (item.hasTagCompound()) {
+						entityItem.getEntityItem().setTagCompound(
+								(NBTTagCompound) item.getTagCompound().copy());
+					}
+					float factor = 0.05F;
+					entityItem.motionX = rand.nextGaussian() * factor;
+					entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
+					entityItem.motionZ = rand.nextGaussian() * factor;
+					world.spawnEntityInWorld(entityItem);
+					item.stackSize = 0;
 				}
-				float factor = 0.05F;
-				entityItem.motionX = rand.nextGaussian() * factor;
-				entityItem.motionY = rand.nextGaussian() * factor + 0.2F;
-				entityItem.motionZ = rand.nextGaussian() * factor;
-				world.spawnEntityInWorld(entityItem);
-				item.stackSize = 0;
 			}
 		}
 	}
-
 }
