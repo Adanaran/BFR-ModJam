@@ -35,13 +35,13 @@ public class BFRCraftingManager {
 				Item.sugar, Item.sugar, BFR.itemFlour, BFR.itemFlour,
 				BFR.itemFlour);
 		addRecipe(new ItemStack(Item.cookie, 8), BFR.itemCakePanIron,
-				new ItemStack(Item.dyePowder, 1, 3), BFR.itemFlour,
+				new ItemStack(BFR.itemCocoaPowder), BFR.itemFlour,
 				BFR.itemFlour);
 		addRecipe(new ItemStack(Item.pumpkinPie), BFR.itemCakePanIron,
 				Block.pumpkin, Item.egg, Item.sugar);
 		addRecipe(new ItemStack(Item.chickenCooked), BFR.itemPanIron,
 				Item.chickenRaw);
-		addRecipe(new ItemStack(Item.bakedPotato), BFR.itemPotIron, Item.potato);
+		addRecipe(new ItemStack(Item.bakedPotato), BFR.itemPanIron, Item.potato);
 	}
 
 	public static BFRCraftingManager getInstance() {

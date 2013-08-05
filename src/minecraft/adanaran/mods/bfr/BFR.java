@@ -313,14 +313,14 @@ public class BFR {
 				itemCakePanDiamond.getUnlocalizedName());
 
 		GameRegistry
-				.addRecipe(new ItemStack(itemPotIron), new Object[] { "I I",
+				.addRecipe(new ItemStack(itemCakePanIron), new Object[] { "I I",
 						"IBI", Character.valueOf('I'), Item.ingotIron,
 						Character.valueOf('I'), Block.blockIron });
-		GameRegistry.addRecipe(new ItemStack(itemPotStone), new Object[] {
+		GameRegistry.addRecipe(new ItemStack(itemCakePanStone), new Object[] {
 				"C C", "CCC", Character.valueOf('C'), Block.stone });
-		GameRegistry.addRecipe(new ItemStack(itemPotGold), new Object[] {
+		GameRegistry.addRecipe(new ItemStack(itemCakePanGold), new Object[] {
 				"C C", "CCC", Character.valueOf('C'), Item.ingotGold });
-		GameRegistry.addRecipe(new ItemStack(itemPotDiamond), new Object[] {
+		GameRegistry.addRecipe(new ItemStack(itemCakePanDiamond), new Object[] {
 				"C C", "CCC", Character.valueOf('C'), Item.diamond });
 
 		LanguageRegistry.addName(itemCakePanIron, "Cakepan");
