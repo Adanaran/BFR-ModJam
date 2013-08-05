@@ -18,7 +18,7 @@ public class MillRecipes {
 
 	private MillRecipes() {
 		this.addMilling(Item.wheat.itemID, new ItemStack(BFR.itemFlour));
-		this.addMilling(Block.reed.blockID, new ItemStack(Item.sugar));
+		this.addMilling(Item.reed.itemID, new ItemStack(Item.sugar));
 		this.addMilling(Item.dyePowder.itemID, 3, new ItemStack(BFR.itemCocoaPowder));
 	}
 
