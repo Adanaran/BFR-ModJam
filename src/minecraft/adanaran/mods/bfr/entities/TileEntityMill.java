@@ -206,7 +206,7 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	}
 
 	public boolean isMilling() {
-		return millItemStacks[0] != null 
+		return millItemStacks[0] != null
 				&& millItemStacks[0].getItem() instanceof ItemMillstone
 				&& millItemStacks[1] != null
 				&& (millItemStacks[2] == null || millItemStacks[2]
@@ -239,7 +239,7 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 
 	private void millItem() {
 		// damage millstone
-//		millItemStacks[0].damageItem(1, null);
+		// millItemStacks[0].damageItem(1, null);
 		if (this.millItemStacks[0].stackSize <= 0) {
 			this.millItemStacks[0] = null;
 		}
@@ -251,6 +251,10 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 		} else if (this.millItemStacks[2].isItemEqual(result)) {
 			millItemStacks[2].stackSize += result.stackSize;
 		}
-
+		// decrease input stacksize
+		millItemStacks[1].stackSize--;
+		if (millItemStacks[1].stackSize <= 0) {
+			millItemStacks[1] = null;
+		}
 	}
 }
