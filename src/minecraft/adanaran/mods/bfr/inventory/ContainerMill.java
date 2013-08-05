@@ -131,7 +131,6 @@ public class ContainerMill extends Container {
 			}
 			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
 		}
-
 		return itemstack;
 	}
 }
