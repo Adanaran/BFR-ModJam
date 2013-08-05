@@ -30,6 +30,16 @@ public class BlockMill extends BlockContainer {
 	}
 
 	@Override
+	public int idDropped(int par1, Random par2Random, int par3) {
+		return BFR.idBlockMill;
+	}
+
+	@Override
+	public int idPicked(World par1World, int par2, int par3, int par4) {
+		return BFR.idBlockMill;
+	}
+
+	@Override
 	public TileEntity createNewTileEntity(World world) {
 		return new TileEntityMill();
 	}

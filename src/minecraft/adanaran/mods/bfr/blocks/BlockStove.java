@@ -44,6 +44,25 @@ public class BlockStove extends BlockContainer {
 		super(id, Material.rock);
 		isActive = active;
 	}
+	
+	@Override
+	public int idDropped(int par1, Random par2Random, int par3) {
+		return BFR.idBlockStove;
+	}
+	
+	@Override
+	public int idPicked(World par1World, int par2, int par3, int par4) {
+		return BFR.idBlockStove;
+	}
+	
+    /**
+     * Called whenever the block is added into the world. Args: world, x, y, z
+     */
+    public void onBlockAdded(World par1World, int par2, int par3, int par4)
+    {
+        super.onBlockAdded(par1World, par2, par3, par4);
+        this.setDefaultDirection(par1World, par2, par3, par4);
+    }
 
 	@Override
 	public TileEntity createNewTileEntity(World world) {
@@ -62,12 +81,11 @@ public class BlockStove extends BlockContainer {
 	}
 
 	@SideOnly(Side.CLIENT)
-	@Override
 	public Icon getIcon(int par1, int par2) {
 		return par1 == 1 ? this.stoveIconTop : (par1 == 0 ? this.stoveIconTop
 				: (par1 != par2 ? this.blockIcon : this.stoveIconFront));
-
 	}
+
 
 	@Override
 	public void onBlockPlacedBy(World par1World, int par2, int par3, int par4,
