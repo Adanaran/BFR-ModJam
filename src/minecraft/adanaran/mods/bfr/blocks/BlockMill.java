@@ -14,6 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class BlockMill extends BlockContainer {
 
+	private static boolean keepMillInventory;
+
 	@SideOnly(Side.CLIENT)
 	private Icon millTop;
 
@@ -47,5 +49,26 @@ public class BlockMill extends BlockContainer {
 	public Icon getIcon(int par1, int par2) {
 		return par1 == 1 ? this.millTop : (par1 == 0 ? this.millTop
 				: this.blockIcon);
+	}
+
+	public static void updateMillBlockState(boolean isActive, World par1World,
+			int par2, int par3, int par4) {
+		int meta = par1World.getBlockMetadata(par2, par3, par4);
+		TileEntity tileentity = par1World.getBlockTileEntity(par2, par3, par4);
+		keepMillInventory = true;
+
+		if (isActive) {
+			par1World.setBlock(par2, par3, par4, BFR.idBlockMillActive);
+		} else {
+			par1World.setBlock(par2, par3, par4, BFR.idBlockMill);
+		}
+
+		keepMillInventory = false;
+		par1World.setBlockMetadataWithNotify(par2, par3, par4, meta, 2);
+
+		if (tileentity != null) {
+			tileentity.validate();
+			par1World.setBlockTileEntity(par2, par3, par4, tileentity);
+		}
 	}
 }

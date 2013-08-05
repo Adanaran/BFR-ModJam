@@ -1,17 +1,14 @@
 package adanaran.mods.bfr.entities;
 
-import adanaran.mods.bfr.blocks.BlockStove;
-import adanaran.mods.bfr.crafting.MillRecipes;
-import adanaran.mods.bfr.inventory.ContainerMill;
-import adanaran.mods.bfr.items.ItemMillstone;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import adanaran.mods.bfr.blocks.BlockMill;
+import adanaran.mods.bfr.crafting.MillRecipes;
+import adanaran.mods.bfr.items.ItemMillstone;
 
 public class TileEntityMill extends TileEntity implements ISidedInventory {
 
@@ -229,7 +226,7 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 		}
 		if (isMilling() != this.millTurningTime > 0) {
 			flag = true;
-			BlockStove.updateStoveBlockState(this.millTurningTime > 0,
+			BlockMill.updateMillBlockState(this.millTurningTime > 0,
 					this.worldObj, this.xCoord, this.yCoord, this.zCoord);
 		}
 		if (flag) {
