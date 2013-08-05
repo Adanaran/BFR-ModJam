@@ -13,4 +13,5 @@ public class ItemCocoaPowder extends Item {
 	public void registerIcons(IconRegister iRegister) {
 		iRegister.registerIcon("bfr:itemCocoaPowder");
 	}
+	
 }

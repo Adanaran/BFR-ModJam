@@ -132,7 +132,8 @@ public class BFR {
 					.getInt(3861);
 			idItemMillstone = cfg.getItem("itemMillstone", 3862).getInt(3862);
 			idItemFlour = cfg.getItem("itemFlour", 3863).getInt(3863);
-			idItemCocoaPowder = cfg.getItem("itemCocoaPowder", 3864).getInt(3864);
+			idItemCocoaPowder = cfg.getItem("itemCocoaPowder", 3864).getInt(
+					3864);
 		} catch (Exception e) {
 			logger.log(Level.WARNING,
 					"Could not load config for Better Food Recipes!", e);
@@ -365,11 +366,12 @@ public class BFR {
 		itemFlour.setCreativeTab(CreativeTabs.tabMaterials);
 		GameRegistry.registerItem(itemFlour, itemFlour.getUnlocalizedName());
 		LanguageRegistry.addName(itemFlour, "Flour");
-		
+
 		itemCocoaPowder = new ItemCocoaPowder(idItemCocoaPowder);
 		itemCocoaPowder.setUnlocalizedName("Cocoa Powder");
 		itemCocoaPowder.setCreativeTab(CreativeTabs.tabMaterials);
-		GameRegistry.registerItem(itemCocoaPowder, itemCocoaPowder.getUnlocalizedName());
+		GameRegistry.registerItem(itemCocoaPowder,
+				itemCocoaPowder.getUnlocalizedName());
 		LanguageRegistry.addName(itemCocoaPowder, "Cocoa Powder");
 	}
 }
