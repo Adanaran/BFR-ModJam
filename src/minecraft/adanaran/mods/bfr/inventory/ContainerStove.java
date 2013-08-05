@@ -144,10 +144,10 @@ public class ContainerStove extends Container {
 						}
 					}
 				} else if (!((Slot) inventorySlots.get(1)).getHasStack()) {
-					// TODO nur ein Item verschieben, d.h.: Anzahl items im
-					// stack um 1 verringern, einen neuen stack verschieben,
-					// wenn originalstack itemanzahl <= 0, dann null setzen
-					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+					itemstack1.stackSize--;
+					ItemStack stack = new ItemStack(itemstack1.getItem());
+					stack.setItemDamage(itemstack1.getItemDamage());
+					if (!this.mergeItemStack(stack, 1, 2, false)) {
 						return null;
 					}
 				}
