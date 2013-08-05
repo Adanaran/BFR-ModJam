@@ -8,6 +8,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import adanaran.mods.bfr.blocks.BlockMill;
 import adanaran.mods.bfr.crafting.MillRecipes;
+import adanaran.mods.bfr.inventory.ContainerMill;
 import adanaran.mods.bfr.items.ItemMillstone;
 
 public class TileEntityMill extends TileEntity implements ISidedInventory {
@@ -24,6 +25,7 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	 * The number of ticks the current item is milled;
 	 */
 	public int millTurningTime;
+	public ContainerMill container;
 	private String tEntityName;
 
 	/**
@@ -203,10 +205,11 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	}
 
 	public boolean isMilling() {
-		ItemStack result = MillRecipes.getInstance().getSmeltingResult(millItemStacks[1]);
+		ItemStack result = MillRecipes.getInstance().getSmeltingResult(
+				millItemStacks[1]);
 		return millItemStacks[0] != null
 				&& millItemStacks[0].getItem() instanceof ItemMillstone
-				&& millItemStacks[1] != null 
+				&& millItemStacks[1] != null
 				&& result != null
 				&& (millItemStacks[2] == null || millItemStacks[2]
 						.isItemEqual(result));
@@ -237,7 +240,9 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 
 	private void millItem() {
 		// damage millstone
-		// millItemStacks[0].damageItem(1, null);
+		if (container == null)
+			return;
+		millItemStacks[0].damageItem(1, container.invPlayer.player);
 		if (this.millItemStacks[0].stackSize <= 0) {
 			this.millItemStacks[0] = null;
 		}

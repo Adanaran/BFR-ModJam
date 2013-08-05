@@ -8,6 +8,7 @@ public class ItemMillstone extends Item {
 	public ItemMillstone(int id) {
 		super(id);
 		this.setMaxDamage(131);
+		this.setMaxStackSize(16);
 	}
 
 	@Override
