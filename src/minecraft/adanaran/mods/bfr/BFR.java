@@ -19,6 +19,7 @@ import adanaran.mods.bfr.blocks.BlockStove;
 import adanaran.mods.bfr.entities.TileEntityMill;
 import adanaran.mods.bfr.entities.TileEntityStove;
 import adanaran.mods.bfr.items.ItemCakePan;
+import adanaran.mods.bfr.items.ItemCocoaPowder;
 import adanaran.mods.bfr.items.ItemFlour;
 import adanaran.mods.bfr.items.ItemMillstone;
 import adanaran.mods.bfr.items.ItemPan;
@@ -74,6 +75,7 @@ public class BFR {
 	public static int idBlockMill;
 	public static int idBlockMillActive;
 	public static int idItemFlour;
+	public static int idItemCocoaPowder;
 
 	// Block-Section
 	public static BlockStove blockStove;
@@ -96,6 +98,7 @@ public class BFR {
 	public static ItemCakePan itemCakePanDiamond;
 	public static ItemMillstone itemMillstone;
 	public static ItemFlour itemFlour;
+	public static ItemCocoaPowder itemCocoaPowder;
 
 	// Init-Section
 	@EventHandler
@@ -129,6 +132,7 @@ public class BFR {
 					.getInt(3861);
 			idItemMillstone = cfg.getItem("itemMillstone", 3862).getInt(3862);
 			idItemFlour = cfg.getItem("itemFlour", 3863).getInt(3863);
+			idItemCocoaPowder = cfg.getItem("itemCocoaPowder", 3864).getInt(3864);
 		} catch (Exception e) {
 			logger.log(Level.WARNING,
 					"Could not load config for Better Food Recipes!", e);
@@ -361,5 +365,11 @@ public class BFR {
 		itemFlour.setCreativeTab(CreativeTabs.tabMaterials);
 		GameRegistry.registerItem(itemFlour, itemFlour.getUnlocalizedName());
 		LanguageRegistry.addName(itemFlour, "Flour");
+		
+		itemCocoaPowder = new ItemCocoaPowder(idItemCocoaPowder);
+		itemCocoaPowder.setUnlocalizedName("Cocoa Powder");
+		itemCocoaPowder.setCreativeTab(CreativeTabs.tabMaterials);
+		GameRegistry.registerItem(itemCocoaPowder, itemCocoaPowder.getUnlocalizedName());
+		LanguageRegistry.addName(itemCocoaPowder, "Cocoa Powder");
 	}
 }
