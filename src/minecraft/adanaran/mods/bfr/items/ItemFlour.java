@@ -2,7 +2,11 @@ package adanaran.mods.bfr.items;
 
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
-
+/**
+ * 
+ * @author Adanaran
+ *
+ */
 public class ItemFlour extends Item {
 
 	public ItemFlour(int id) {

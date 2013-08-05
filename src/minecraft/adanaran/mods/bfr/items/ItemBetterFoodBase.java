@@ -4,9 +4,9 @@ import net.minecraft.item.ItemFood;
 
 /**
  * Mainclass for all new food-items.
+ * (comming soon)
  * 
- * 
- * @author Tim
+ * @author Demitreus
  * 
  */
 public abstract class ItemBetterFoodBase extends ItemFood {

@@ -5,6 +5,11 @@ import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import adanaran.mods.bfr.items.ItemCookwareBase;
 
+/**
+ *
+ * @author Demitreus
+ *
+ */
 public class SlotCookware extends Slot {
 
 	public SlotCookware(IInventory par1iInventory, int par2, int par3, int par4) {

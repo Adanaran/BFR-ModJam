@@ -3,6 +3,11 @@ package adanaran.mods.bfr.items;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.item.Item;
 
+/**
+ * 
+ * @author Adanaran
+ * 
+ */
 public class ItemMillstone extends Item {
 
 	public ItemMillstone(int id) {

@@ -16,6 +16,10 @@ import adanaran.mods.bfr.items.ItemCookwareBase;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
+/**
+ * @author Demitreus
+ *
+ */
 public class ContainerStove extends Container {
 
 	public InventoryPlayer invPlayer;
