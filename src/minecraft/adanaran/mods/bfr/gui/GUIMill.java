@@ -1,5 +1,7 @@
 package adanaran.mods.bfr.gui;
 
+import java.nio.ByteBuffer;
+
 import org.lwjgl.opengl.GL11;
 
 import adanaran.mods.bfr.entities.TileEntityMill;
@@ -44,12 +46,16 @@ public class GUIMill extends GuiContainer {
         int k = (this.width - this.xSize) / 2;
         int l = (this.height - this.ySize) / 2;
         this.drawTexturedModalRect(k, l, 0, 0, this.xSize, this.ySize);
-        int i1;
+        int i1= millInventory.getMillProgressScaled(24);;
         if(millInventory.isMilling()){
-            this.drawTexturedModalRect(k+12, l+16, 176, 31, 33, 33);
+        	GL11.glPushMatrix();
+        	GL11.glTranslated(k+29, l+33, 0);
+        	GL11.glRotated(i1*360/24, 0, 0, 1);
+        	drawTexturedModalRect(-17, -17, 176, 31, 34, 34);
+        	GL11.glPopMatrix();
+            
         }
         //position of progressbar
-        i1 = millInventory.getMillProgressScaled(24);
         this.drawTexturedModalRect(k + 79, l + 34, 176, 14, i1 + 1, 16);
 		
 	}
