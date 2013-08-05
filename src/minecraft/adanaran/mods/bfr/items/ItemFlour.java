@@ -11,7 +11,7 @@ public class ItemFlour extends Item {
 
 	@Override
 	public void registerIcons(IconRegister iRegister) {
-		iRegister.registerIcon("bfr:itemFlour");
+		itemIcon = iRegister.registerIcon("bfr:itemFlour");
 	}
 
 }

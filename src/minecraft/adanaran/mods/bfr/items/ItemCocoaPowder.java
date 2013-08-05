@@ -11,6 +11,6 @@ public class ItemCocoaPowder extends Item {
 
 	@Override
 	public void registerIcons(IconRegister iRegister) {
-		iRegister.registerIcon("bfr:itemCocoaPowder");
+		itemIcon = iRegister.registerIcon("bfr:itemCocoaPowder");
 	}
 }

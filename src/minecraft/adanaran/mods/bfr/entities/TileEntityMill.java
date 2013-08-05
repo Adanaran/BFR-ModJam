@@ -199,16 +199,17 @@ public class TileEntityMill extends TileEntity implements ISidedInventory {
 	}
 
 	public int getMillProgressScaled(int i) {
-		return this.millTurningTime * i / 200;
+		return this.millTurningTime * i / 100;
 	}
 
 	public boolean isMilling() {
+		ItemStack result = MillRecipes.getInstance().getSmeltingResult(millItemStacks[1]);
 		return millItemStacks[0] != null
 				&& millItemStacks[0].getItem() instanceof ItemMillstone
-				&& millItemStacks[1] != null
+				&& millItemStacks[1] != null 
+				&& result != null
 				&& (millItemStacks[2] == null || millItemStacks[2]
-						.isItemEqual(MillRecipes.getInstance()
-								.getSmeltingResult(millItemStacks[1])));
+						.isItemEqual(result));
 	}
 
 	public void updateEntity() {
