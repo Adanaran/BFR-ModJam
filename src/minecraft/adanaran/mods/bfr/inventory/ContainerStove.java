@@ -6,6 +6,7 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ICrafting;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.inventory.Slot;
+import net.minecraft.inventory.SlotFurnace;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
@@ -32,7 +33,7 @@ public class ContainerStove extends Container {
 		this.worldObj = world;
 		this.addSlotToContainer(new Slot(tileEntityStove, 1, 8, 53));
 		this.addSlotToContainer(new SlotCookware(tileEntityStove, 0, 8, 17));
-		this.addSlotToContainer(new SlotStove(inventory.player,
+		this.addSlotToContainer(new SlotFurnace(inventory.player,
 				tileEntityStove, 2, 124, 35));
 		int i;
 		int slotIndex = 3;
@@ -143,7 +144,10 @@ public class ContainerStove extends Container {
 						}
 					}
 				} else if (!((Slot) inventorySlots.get(1)).getHasStack()) {
-					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+					itemstack1.stackSize--;
+					ItemStack stack = new ItemStack(itemstack1.getItem());
+					stack.setItemDamage(itemstack1.getItemDamage());
+					if (!this.mergeItemStack(stack, 1, 2, false)) {
 						return null;
 					}
 				}

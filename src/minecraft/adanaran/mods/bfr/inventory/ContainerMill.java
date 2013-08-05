@@ -18,141 +18,124 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.world.World;
 
 public class ContainerMill extends Container {
+	public InventoryPlayer invPlayer;
 	private TileEntityMill mill;
 	private int lastMillTime;
 
 	public ContainerMill(InventoryPlayer invPlayer,
 			TileEntityMill tileEntityMill, World world) {
-        this.mill = tileEntityMill;
-        this.addSlotToContainer(new Slot(tileEntityMill, 1, 56, 17));
-        this.addSlotToContainer(new Slot(tileEntityMill, 0, 56, 53));
-        this.addSlotToContainer(new SlotFurnace(invPlayer.player, tileEntityMill, 2, 116, 35));
-        int i;
+		this.mill = tileEntityMill;
+		this.invPlayer = invPlayer;
+		this.addSlotToContainer(new Slot(tileEntityMill, 1, 56, 17));
+		this.addSlotToContainer(new Slot(tileEntityMill, 0, 56, 53));
+		this.addSlotToContainer(new SlotFurnace(invPlayer.player,
+				tileEntityMill, 2, 116, 35));
+		int i;
 
-        for (i = 0; i < 3; ++i)
-        {
-            for (int j = 0; j < 9; ++j)
-            {
-                this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9, 8 + j * 18, 84 + i * 18));
-            }
-        }
+		for (i = 0; i < 3; ++i) {
+			for (int j = 0; j < 9; ++j) {
+				this.addSlotToContainer(new Slot(invPlayer, j + i * 9 + 9,
+						8 + j * 18, 84 + i * 18));
+			}
+		}
 
-        for (i = 0; i < 9; ++i)
-        {
-            this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
-        }
-    }
+		for (i = 0; i < 9; ++i) {
+			this.addSlotToContainer(new Slot(invPlayer, i, 8 + i * 18, 142));
+		}
+	}
 
 	@Override
 	public boolean canInteractWith(EntityPlayer entityplayer) {
 		return true;
 	}
-    /**
-     * Looks for changes made in the container, sends them to every listener.
-     */
-    public void detectAndSendChanges()
-    {
-        super.detectAndSendChanges();
 
-        for (int i = 0; i < this.crafters.size(); ++i)
-        {
-            ICrafting icrafting = (ICrafting)this.crafters.get(i);
+	/**
+	 * Looks for changes made in the container, sends them to every listener.
+	 */
+	public void detectAndSendChanges() {
+		super.detectAndSendChanges();
 
-            if (this.lastMillTime != this.mill.millTurningTime)
-            {
-                icrafting.sendProgressBarUpdate(this, 1, this.mill.millTurningTime);
-            }
-        }
+		for (int i = 0; i < this.crafters.size(); ++i) {
+			ICrafting icrafting = (ICrafting) this.crafters.get(i);
 
-        this.lastMillTime = this.mill.millTurningTime;
-    }
+			if (this.lastMillTime != this.mill.millTurningTime) {
+				icrafting.sendProgressBarUpdate(this, 1,
+						this.mill.millTurningTime);
+			}
+		}
+		mill.container = this;
+		this.lastMillTime = this.mill.millTurningTime;
+	}
 
-    @SideOnly(Side.CLIENT)
-    public void updateProgressBar(int par1, int par2)
-    {
-        if (par1 == 1)
-        {
-            this.mill.millTurningTime = par2;
-        }
+	@SideOnly(Side.CLIENT)
+	public void updateProgressBar(int par1, int par2) {
+		if (par1 == 1) {
+			this.mill.millTurningTime = par2;
+		}
 
-    }
+	}
 
 	public void addCraftingToCrafters(ICrafting par1ICrafting) {
 		super.addCraftingToCrafters(par1ICrafting);
 		par1ICrafting.sendProgressBarUpdate(this, 0, this.mill.millTurningTime);
 	}
+
 	/**
-     * Called when a player shift-clicks on a slot. You must override this or you will crash when someone does that.
-     */
-    public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2)
-    {
-        ItemStack itemstack = null;
-        Slot slot = (Slot)this.inventorySlots.get(par2);
+	 * Called when a player shift-clicks on a slot. You must override this or
+	 * you will crash when someone does that.
+	 */
+	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
+		// TODO Hier verschieben sich Dinge komisch / anders als im anderen
+		// Container. Und generell muss das wohl angepasst werden, da hier gar
+		// kein Transfer funktioniert. Copy/paste failed.
+		ItemStack itemstack = null;
+		Slot slot = (Slot) this.inventorySlots.get(par2);
 
-        if (slot != null && slot.getHasStack())
-        {
-            ItemStack itemstack1 = slot.getStack();
-            itemstack = itemstack1.copy();
+		if (slot != null && slot.getHasStack()) {
+			ItemStack itemstack1 = slot.getStack();
+			itemstack = itemstack1.copy();
 
-            if (par2 == 2)
-            {
-                if (!this.mergeItemStack(itemstack1, 3, 39, true))
-                {
-                    return null;
-                }
+			if (par2 == 2) {
+				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
+					return null;
+				}
 
-                slot.onSlotChange(itemstack1, itemstack);
-            }
-            else if (par2 != 1 && par2 != 0)
-            {
-                if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null)
-                {
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (itemstack1.getItem() instanceof ItemMillstone && !((Slot)this.inventorySlots.get(0)).getHasStack())
-                {
-                    if (!this.mergeItemStack(itemstack1, 1, 2, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (par2 >= 3 && par2 < 30)
-                {
-                    if (!this.mergeItemStack(itemstack1, 30, 39, false))
-                    {
-                        return null;
-                    }
-                }
-                else if (par2 >= 30 && par2 < 39 && !this.mergeItemStack(itemstack1, 3, 30, false))
-                {
-                    return null;
-                }
-            }
-            else if (!this.mergeItemStack(itemstack1, 3, 39, false))
-            {
-                return null;
-            }
+				slot.onSlotChange(itemstack1, itemstack);
+			} else if (par2 != 1 && par2 != 0) {
+				if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null) {
+					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+						return null;
+					}
+				} else if (itemstack1.getItem() instanceof ItemMillstone
+						&& !((Slot) this.inventorySlots.get(0)).getHasStack()) {
+					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+						return null;
+					}
+				} else if (par2 >= 3 && par2 < 30) {
+					if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
+						return null;
+					}
+				} else if (par2 >= 30 && par2 < 39
+						&& !this.mergeItemStack(itemstack1, 3, 30, false)) {
+					return null;
+				}
+			} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
+				return null;
+			}
 
-            if (itemstack1.stackSize == 0)
-            {
-                slot.putStack((ItemStack)null);
-            }
-            else
-            {
-                slot.onSlotChanged();
-            }
+			if (itemstack1.stackSize == 0) {
+				slot.putStack((ItemStack) null);
+			} else {
+				slot.onSlotChanged();
+			}
 
-            if (itemstack1.stackSize == itemstack.stackSize)
-            {
-                return null;
-            }
+			if (itemstack1.stackSize == itemstack.stackSize) {
+				return null;
+			}
 
-            slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
-        }
+			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
+		}
 
-        return itemstack;
-    }
+		return itemstack;
+	}
 }
