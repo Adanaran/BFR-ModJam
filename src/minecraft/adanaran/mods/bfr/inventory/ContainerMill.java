@@ -85,9 +85,7 @@ public class ContainerMill extends Container {
 	 * you will crash when someone does that.
 	 */
 	public ItemStack transferStackInSlot(EntityPlayer par1EntityPlayer, int par2) {
-		// TODO Hier verschieben sich Dinge komisch / anders als im anderen
-		// Container. Und generell muss das wohl angepasst werden, da hier gar
-		// kein Transfer funktioniert. Copy/paste failed.
+		// par2-slots: 0 - input; 1 - millstone, 2 - output 4-39 - inv
 		ItemStack itemstack = null;
 		Slot slot = (Slot) this.inventorySlots.get(par2);
 
@@ -95,44 +93,42 @@ public class ContainerMill extends Container {
 			ItemStack itemstack1 = slot.getStack();
 			itemstack = itemstack1.copy();
 
-			if (par2 == 2) {
+			if (par2 <= 2) {
 				if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
 					return null;
 				}
-
 				slot.onSlotChange(itemstack1, itemstack);
-			} else if (par2 != 1 && par2 != 0) {
-				if (FurnaceRecipes.smelting().getSmeltingResult(itemstack1) != null) {
-					if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+			} else if (par2 >= 4) {
+				if (!(itemstack1.getItem() instanceof ItemMillstone)) {
+					ItemStack result = MillRecipes.getInstance()
+							.getSmeltingResult(itemstack1);
+					if (result != null) {
+						if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+							return null;
+						}
+					} else if (par2 >= 30
+							&& !this.mergeItemStack(itemstack1, 3, 30, false)) {
 						return null;
 					}
-				} else if (itemstack1.getItem() instanceof ItemMillstone
-						&& !((Slot) this.inventorySlots.get(0)).getHasStack()) {
-					if (!this.mergeItemStack(itemstack1, 1, 2, false)) {
+				} else if (!((Slot) this.inventorySlots.get(1)).getHasStack()) {
+					itemstack1.stackSize--;
+					ItemStack stack = new ItemStack(itemstack1.getItem());
+					stack.setItemDamage(itemstack1.getItemDamage());
+					if (!this.mergeItemStack(stack, 1, 2, false)) {
 						return null;
 					}
-				} else if (par2 >= 3 && par2 < 30) {
-					if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
-						return null;
-					}
-				} else if (par2 >= 30 && par2 < 39
-						&& !this.mergeItemStack(itemstack1, 3, 30, false)) {
-					return null;
 				}
 			} else if (!this.mergeItemStack(itemstack1, 3, 39, false)) {
 				return null;
 			}
-
 			if (itemstack1.stackSize == 0) {
 				slot.putStack((ItemStack) null);
 			} else {
 				slot.onSlotChanged();
 			}
-
 			if (itemstack1.stackSize == itemstack.stackSize) {
 				return null;
 			}
-
 			slot.onPickupFromSlot(par1EntityPlayer, itemstack1);
 		}
 
